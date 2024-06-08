@@ -1,16 +1,13 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const configProcess = require('./configs/databaseConfig');
+const BaseRouter = require('./Routers/BaseRouter');
 
 const app = express();
 dotenv.config();
 configProcess();
 
-app.get('/', (req, res) => {
-
-    console.log('working fine');
-
-});
+app.use('/', BaseRouter)
 
 const PORT = process.env.PORT || 3000;
 
