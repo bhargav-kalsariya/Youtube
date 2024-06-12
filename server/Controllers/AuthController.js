@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const { ERROR, SUCCESS } = require('../Utilities/ResponseWrapper');
 const User = require('../Models/User');
-const GenerateAccessToken = require('../Utilities/Functions');
+const { GenerateAccessToken, GenerateRefreshToken } = require('../Utilities/Functions');
 
 const SignupController = async (req, res) => {
 
@@ -62,7 +62,15 @@ const LoginController = async (req, res) => {
 
         }
 
-        console.log(user);
+        const accessToken = GenerateAccessToken({ _id: user._id });
+        const refreshToken = GenerateRefreshToken({ _id: user._id });
+
+        res.cookie('jwt', refreshToken, {
+            secure: true,
+            httpOnly: true
+        });
+
+        return res.send(SUCCESS(200, { accessToken }));
 
     } catch (error) {
 
