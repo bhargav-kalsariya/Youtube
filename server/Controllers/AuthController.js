@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { ERROR, SUCCESS } = require('../Utilities/ResponseWrapper');
 const User = require('../Models/User');
+const GenerateAccessToken = require('../Utilities/Functions');
 
 const SignupController = async (req, res) => {
 
@@ -28,13 +29,46 @@ const SignupController = async (req, res) => {
         password: encryptedPassword
     })
 
-    res.send(SUCCESS(201, 'you have successfully signed up'));
+    return res.send(SUCCESS(201, 'you have successfully signed up'));
 
 }
 
-const LoginController = (req, res) => {
+const LoginController = async (req, res) => {
 
-    console.log('working fine');
+    const { email, password } = req.body;
+
+    if (!password || !email) {
+
+        return res.send(ERROR(404, "All are required fields"));
+
+    }
+
+    try {
+
+        const user = await User.findOne({ email }).select('+password');
+
+        if (!user) {
+
+            return res.send(ERROR(404, 'user not found with this email'));
+
+        }
+
+        const stringPassword = password.toString();
+        const verifiedUser = await bcrypt.compare(stringPassword, user.password);
+
+        if (!verifiedUser) {
+
+            return res.send(ERROR(403, 'password mismatch'));
+
+        }
+
+        console.log(user);
+
+    } catch (error) {
+
+        return res.send(ERROR(500, 'internal error' + error.message));
+
+    }
 
 }
 
