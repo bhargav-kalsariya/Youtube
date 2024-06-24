@@ -1,0 +1,18 @@
+.sidebar {
+  width: 200px;
+  background-color: #202020;
+  padding: 20px;
+
+  nav {
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        padding: 10px 0;
+        cursor: pointer;
+        color: #ffffff;
+      }
+    }
+  }
+}
