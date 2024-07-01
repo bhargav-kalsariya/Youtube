@@ -1,19 +1,19 @@
 import React from 'react';
-import Header from './components/Header/Header';
-import Sidebar from './components/Sidebar/Sidebar';
-import VideoGrid from './components/VideoGrid/VideoGrid';
-import './App.scss';
+import { Routes, Route } from 'react-router-dom';
+import Signup from './pages/Signup';
 
 function App() {
-  return (
-    <div className="App">
-      <Header />
-      <div className="main-content">
-        <Sidebar />
-        <VideoGrid />
-      </div>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Routes>
+                <Route>
+
+                    <Route path='signup' element={<Signup />}></Route>
+
+                </Route>
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
