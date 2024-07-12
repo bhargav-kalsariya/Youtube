@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Signup.scss';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { axiosClient } from '../../utilities/axiosClient';
 
 function Signup() {
 
@@ -8,10 +9,21 @@ function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+
     async function handleSubmit(e) {
 
         e.preventDefault();
-        console.log(username, email, password);
+
+        const response = await axiosClient.post('/auth/signup', {
+            username,
+            email,
+            password
+        })
+
+        if (response.data.result.data) {
+            navigate('/login')
+        }
 
     }
 
