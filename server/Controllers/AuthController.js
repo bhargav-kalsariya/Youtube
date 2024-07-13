@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { ERROR, SUCCESS } = require('../Utilities/ResponseWrapper');
 const User = require('../Models/User');
 const { GenerateAccessToken, GenerateRefreshToken } = require('../Utilities/Functions');
@@ -80,4 +81,35 @@ const LoginController = async (req, res) => {
 
 }
 
-module.exports = { LoginController, SignupController };
+const RefreshController = (req, res) => {
+
+    const cookies = req.cookies;
+
+    if (!cookies.jwt) {
+
+        return res.send(ERROR(404, 'jwt token is required in cookies.'));
+
+    }
+
+    const refreshToken = cookies.jwt;
+
+    try {
+
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
+        const _id = decoded._id;
+        const accessToken = GenerateAccessToken({ _id });
+
+        return res.send(SUCCESS(200, {
+            accessToken
+        }))
+
+    } catch (error) {
+
+        console.log(error);
+        return res.send(error(401, 'Invalid Refresh Token'));
+
+    }
+
+};
+
+module.exports = { LoginController, SignupController, RefreshController };
