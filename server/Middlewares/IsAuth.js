@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
             !req.headers.authorization.startsWith('Bearer')
         ) {
 
-            return res.send(ERROR(401, 'Header authorization required'));
+            return res.send(ERROR(403, 'Header authorization required'));
 
         }
 

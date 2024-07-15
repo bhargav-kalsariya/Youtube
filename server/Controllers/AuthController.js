@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const { ERROR, SUCCESS } = require('../Utilities/ResponseWrapper');
 const User = require('../Models/User');
 const { GenerateAccessToken, GenerateRefreshToken } = require('../Utilities/Functions');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const SignupController = async (req, res) => {
 
@@ -87,7 +90,7 @@ const RefreshController = (req, res) => {
 
     if (!cookies.jwt) {
 
-        return res.send(ERROR(404, 'jwt token is required in cookies.'));
+        return res.send(ERROR(401, 'jwt token is required in cookies.'));
 
     }
 
@@ -96,6 +99,7 @@ const RefreshController = (req, res) => {
     try {
 
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
+        console.log({ decoded });
         const _id = decoded._id;
         const accessToken = GenerateAccessToken({ _id });
 
@@ -106,7 +110,7 @@ const RefreshController = (req, res) => {
     } catch (error) {
 
         console.log(error);
-        return res.send(error(401, 'Invalid Refresh Token'));
+        return res.send(ERROR(401, 'Invalid Refresh Token'));
 
     }
 

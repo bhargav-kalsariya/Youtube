@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Login.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { axiosClient } from '../../utilities/axiosClient';
 import { ACCESS_TOKEN_KEY, setItem } from '../../utilities/localStorage';
 
@@ -8,7 +8,7 @@ function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const naviget = useNavigate();
+    const naviget = useNavigate();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -17,11 +17,13 @@ function Login() {
             email,
             password
         });
-        const accessToken = response.data.result.data.accessToken;
 
-        if (response) {
+        if (response?.data.status === 'success') {
+            const accessToken = response.data.result.data.accessToken;
             setItem(ACCESS_TOKEN_KEY, accessToken);
+            return naviget('/');
         }
+        console.log({ response });
     }
 
     return (
