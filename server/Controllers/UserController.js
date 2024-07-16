@@ -6,7 +6,7 @@ const userProfileController = async (req, res) => {
     const curUserId = req._id;
     const curUser = await User.findById(curUserId);
 
-    return res.send(SUCCESS(200, { curUser }));
+    return res.send(SUCCESS(200, curUser));
 
 }
 
