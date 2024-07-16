@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Header.scss';
-import { axiosClient } from '../../utilities/axiosClient';
+import { useSelector } from 'react-redux';
 
 function Header() {
 
-    const [myProfile, setMyProfile] = useState({});
-
-    async function getMyProfile() {
-
-        const myProfile = await axiosClient.get('/user/profile');
-        setMyProfile(myProfile);
-
-    }
+    const myProfile = useSelector(state => state.userReducer?.myProfile);
 
     console.log({ myProfile });
-
-    useEffect(() => {
-        getMyProfile();
-    }, []);
-
 
     return (
         <header>
