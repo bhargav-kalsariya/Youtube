@@ -4,6 +4,7 @@ import Signup from './pages/Signup/Signup';
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import Ifunauthorized from './components/Ifunauthorized';
+import CreateVideo from './components/CreateVideo/CreateVideo';
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Routes>
 
                 <Route path='/' element={<Home />}></Route>
+                <Route path='/create-video' element={<CreateVideo />}></Route>
 
                 <Route element={<Ifunauthorized />}>
 
