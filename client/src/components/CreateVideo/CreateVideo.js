@@ -1,55 +1,56 @@
 import React, { useState } from 'react'
 import './CreateVideo.scss';
 import { BsCardImage } from 'react-icons/bs'
+import { axiosClient } from '../../utilities/axiosClient';
 
 function CreateVideo() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [videoFile, setVideoFile] = useState(null);
-    const [videoPreview, setVideoPreview] = useState(null);
+    const [postVideo, setPostVideo] = useState(null);
+    const [video, setVideo] = useState(null);
 
-    function handleImageChange(e) {
+    function handleVideoChange(e) {
         const file = e.target.files[0];
         const fileReader = new FileReader();
         if (file) {
             fileReader.readAsDataURL(file);
         } else {
-            setVideoPreview(null);
+            setPostVideo(null);
             return;
         }
 
         fileReader.onload = () => {
             if (fileReader.readyState === fileReader.DONE) {
-                setVideoFile(file);
-                setVideoPreview(fileReader.result);
+                setVideo(file);
+                setPostVideo(fileReader.result);
             }
         };
     }
 
-    async function handlePostSubmit() {
+    async function handleVideoSubmit() {
 
-        // try {
+        try {
 
-        //     const response = await axiosClient.post('/posts/', {
-        //         title,
-        //         postImg
-        //     })
-        //     console.log('create post', response);
-        //     disPatch(getUserProfile({
-        //         userId: myProfile?._id
-        //     }))
+            const response = await axiosClient.post('/video/create', {
+                title,
+                description,
+                postVideo
+            })
+            console.log('create video', { response });
 
-        // } catch (error) {
+        } catch (error) {
 
-        //     return Promise.reject(error);
+            return Promise.reject(error);
 
-        // } finally {
+        } finally {
 
-        //     setTitle('');
-        //     setPostImg('');
+            setTitle('');
+            setDescription('');
+            setPostVideo(null);
+            setVideo(null);
 
-        // }
+        }
 
     }
 
@@ -60,10 +61,10 @@ function CreateVideo() {
                     <input value={title} type="text" className='title' placeholder=' title ' onChange={(e) => setTitle(e.target.value)} />
                     <input value={description} type="text" className='description' placeholder=' description ' onChange={(e) => setDescription(e.target.value)} />
 
-                    {videoPreview && (
+                    {postVideo && (
                         <div className="video-preview">
                             <video width="400" controls>
-                                <source src={videoPreview} type={videoFile.type} />
+                                <source src={postVideo} source={video.type} />
                             </video>
                         </div>
                     )}
@@ -73,9 +74,9 @@ function CreateVideo() {
                             <label htmlFor="userImg" className='lableImg'>
                                 <BsCardImage />
                             </label>
-                            <input className='inputImg' type="file" accept='image/*' id="userImg" onChange={handleImageChange} />
+                            <input className='inputImg' type="file" accept='image/*' id="userImg" onChange={handleVideoChange} />
                         </div>
-                        <div className="post-btn btn-primary" onClick={handlePostSubmit}>Post</div>
+                        <div className="post-btn btn-primary" onClick={handleVideoSubmit}>Post</div>
                     </div>
                 </div>
             </div>
