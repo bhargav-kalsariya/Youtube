@@ -5,7 +5,7 @@ import { axiosClient } from '../../utilities/axiosClient';
 
 function Signup() {
 
-    const [username, setUsername] = useState('');
+    const [channleName, setChannleName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -16,7 +16,7 @@ function Signup() {
         e.preventDefault();
 
         const response = await axiosClient.post('/auth/signup', {
-            username,
+            channleName,
             email,
             password
         })
@@ -34,7 +34,7 @@ function Signup() {
                 <form onSubmit={handleSubmit}>
 
                     <label htmlFor="name">Name</label>
-                    <input type="text" className="name" id="name" onChange={(e) => { setUsername(e.target.value) }} />
+                    <input type="text" className="name" id="name" onChange={(e) => { setChannleName(e.target.value) }} />
 
                     <label htmlFor="email">Email</label>
                     <input type="email" className="email" id="email" onChange={(e) => { setEmail(e.target.value) }} />

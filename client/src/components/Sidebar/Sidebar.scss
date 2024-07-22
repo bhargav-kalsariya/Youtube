@@ -1,18 +1,35 @@
 .sidebar {
-  width: 200px;
-  background-color: #202020;
-  padding: 20px;
+  width: 240px;
+  height: calc(100vh - 60px); // Adjust according to your header height
+  position: fixed;
+  top: 60px; // Adjust according to your header height
+  left: 0;
+  background-color: #ffffff;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
 
-  nav {
-    ul {
-      list-style: none;
-      padding: 0;
+  a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #606060;
+    font-size: 14px;
 
-      li {
-        padding: 10px 0;
-        cursor: pointer;
-        color: #ffffff;
-      }
+    &:hover {
+      background-color: #e2e2e2;
+    }
+
+    &.active {
+      background-color: #e2e2e2;
+      color: #000;
+    }
+
+    svg {
+      margin-right: 15px;
     }
   }
 }

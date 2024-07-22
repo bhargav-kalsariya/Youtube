@@ -1,0 +1,9 @@
+.home {
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    display: flex;
+    margin-top: 60px; // Adjust according to your header height
+  }
+}

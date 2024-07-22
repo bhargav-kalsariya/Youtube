@@ -9,31 +9,39 @@ dotenv.config();
 
 const SignupController = async (req, res) => {
 
-    const { username, email, password } = req.body;
+    const { channleName, email, password } = req.body;
 
-    if (!username || !password || !email) {
+    try {
 
-        return res.send(ERROR(404, "All are required fields"));
+        if (!channleName || !password || !email) {
+
+            return res.send(ERROR(404, "All are required fields"));
+
+        }
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+
+            return res.send(ERROR(403, "User already exists"));
+
+        }
+
+        const encryptedPassword = await bcrypt.hash(password, 10);
+
+        await User.create({
+            channleName,
+            email,
+            password: encryptedPassword
+        })
+
+        return res.send(SUCCESS(201, 'you have successfully signed up'));
+
+    } catch (error) {
+
+        return res.send(ERROR(500, error.message));
 
     }
-
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-
-        return res.send(ERROR(403, "User already exists"));
-
-    }
-
-    const encryptedPassword = await bcrypt.hash(password, 10);
-
-    await User.create({
-        username,
-        email,
-        password: encryptedPassword
-    })
-
-    return res.send(SUCCESS(201, 'you have successfully signed up'));
 
 }
 

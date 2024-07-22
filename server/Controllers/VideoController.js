@@ -2,6 +2,7 @@ const cloudinary = require('cloudinary').v2;
 const { ERROR, SUCCESS } = require('../Utilities/ResponseWrapper');
 const Video = require('../Models/Video');
 const User = require('../Models/User');
+const { mapVideoDetails } = require('../Utilities/Functions');
 
 const createVideoController = async (req, res) => {
     try {
@@ -38,4 +39,18 @@ const createVideoController = async (req, res) => {
     }
 };
 
-module.exports = { createVideoController };
+const getAllVideocontroller = async (req, res) => {
+
+    const curUserId = req._id;
+    const videos = await Video.find().populate('owner');
+
+    const mappedVideoDetails = videos.map(video => mapVideoDetails(video, curUserId));
+
+    return res.send(SUCCESS(200, mappedVideoDetails));
+
+};
+
+module.exports = {
+    createVideoController,
+    getAllVideocontroller
+};

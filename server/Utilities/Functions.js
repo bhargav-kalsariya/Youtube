@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const timeAgo = require('time-ago');
 
 dotenv.config();
 
@@ -21,4 +22,26 @@ const GenerateRefreshToken = (IdToCreateToken) => {
 
 }
 
-module.exports = { GenerateAccessToken, GenerateRefreshToken };
+const mapVideoDetails = (video, userId) => {
+
+    return {
+        _id: video._id,
+        title: video.title,
+        description: video.description,
+        video: video.video,
+        owner: {
+            _id: video.owner._id,
+            channleName: video.owner.username,
+            avatar: video.owner.profilePictureURL
+        },
+        isLiked: video.likes.includes(userId),
+        isDisliked: video.dislikes.includes(userId),
+        likesCount: video.likes.length,
+        dislikesCount: video.dislikes.length,
+        viewsCount: video.views,
+        timeAgo: timeAgo.ago(video.createdAt)
+    }
+
+};
+
+module.exports = { GenerateAccessToken, GenerateRefreshToken, mapVideoDetails };

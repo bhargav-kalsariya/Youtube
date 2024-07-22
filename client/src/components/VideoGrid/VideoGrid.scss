@@ -1,7 +1,9 @@
 .video-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 10px;
+  gap: 20px;
   padding: 20px;
-  flex-grow: 1;
+  margin-left: 240px; // Ensure this matches the width in SideBar.scss
+  margin-top: 60px; // Adjust according to your header height
+  box-sizing: border-box;
 }
