@@ -16,8 +16,7 @@ const VideoCard = ({ video }) => {
                 </div>
                 <div className="video-details">
                     <h3 className="title">{video.title}</h3>
-                    <p className="description">{video.description}</p>
-                    <p className="owner-name">{video.owner.avatar}</p>
+                    <p className="owner-name">{video.owner.channleName}</p>
                     <p className="views-time">{video.viewsCount} views • {video.timeAgo}</p>
                 </div>
             </div>

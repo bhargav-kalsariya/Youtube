@@ -31,7 +31,7 @@ const mapVideoDetails = (video, userId) => {
         video: video.video,
         owner: {
             _id: video.owner._id,
-            channleName: video.owner.username,
+            channleName: video.owner.channleName,
             avatar: video.owner.profilePictureURL
         },
         isLiked: video.likes.includes(userId),

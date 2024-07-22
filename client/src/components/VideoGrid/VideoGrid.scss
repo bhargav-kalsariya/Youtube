@@ -3,7 +3,6 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   padding: 20px;
-  margin-left: 240px; // Ensure this matches the width in SideBar.scss
-  margin-top: 60px; // Adjust according to your header height
+  margin-left: 240px;
   box-sizing: border-box;
 }
