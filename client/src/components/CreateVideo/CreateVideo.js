@@ -80,7 +80,7 @@ function CreateVideo() {
                                 <label htmlFor="userImg" className='labelImg'>
                                     <BsCardImage />
                                 </label>
-                                <input className='inputImg' type="file" accept='image/*' id="userImg" onChange={handleVideoChange} />
+                                <input className='inputImg' type="file" accept='video/*' id="userImg" onChange={handleVideoChange} />
                             </div>
                             <div className="post-btn btn-primary" onClick={handleVideoSubmit}>Upload</div>
                         </div>

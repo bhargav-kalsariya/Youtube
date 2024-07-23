@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import './Header.scss';
 import { CiSearch } from "react-icons/ci";
 import userImg from '../../assets/user.png';
+import { useSelector } from 'react-redux';
 
 function Header() {
     const navigate = useNavigate();
+    const myProfile = useSelector((state) => state.userReducer.myProfile);
 
     return (
         <header className='header-wrapper'>
@@ -21,7 +23,7 @@ function Header() {
                 <div className="create-videos-icon" onClick={() => navigate('/create-video')}>
                     <RiVideoAddLine />
                 </div>
-                <div className="user-avatar">
+                <div className="user-avatar" onClick={() => navigate(`/profile/${myProfile?.data._id}`)}>
                     <img src={userImg} alt="User Avatar" />
                 </div>
             </div>
