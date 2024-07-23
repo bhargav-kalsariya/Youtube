@@ -16,12 +16,12 @@ function Signup() {
         e.preventDefault();
 
         const response = await axiosClient.post('/auth/signup', {
-            channleName,
             email,
-            password
+            password,
+            channleName
         })
 
-        if (response.data.result.data) {
+        if (response?.data?.result.data) {
             navigate('/login')
         }
 

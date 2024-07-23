@@ -5,7 +5,6 @@ const user = mongoose.Schema({
     channleName: {
         type: String,
         required: true,
-        unique: true
     },
 
     email: {
@@ -21,8 +20,8 @@ const user = mongoose.Schema({
     },
 
     profilePictureURL: {
-        type: String,
-        default: ''
+        publicId: String,
+        url: String,
     },
 
     bio: {

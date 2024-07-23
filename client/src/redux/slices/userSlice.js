@@ -16,20 +16,40 @@ export const getMyProfile = createAsyncThunk('user/profile', async () => {
 
     }
 
+});
+
+export const updateProfile = createAsyncThunk('user/updateProfile', async (body) => {
+
+    try {
+
+        const response = await axiosClient.post('/user/updateProfile', body);
+        console.log({ response });
+        const updatedProfile = response.data.result;
+        console.log({ updatedProfile });
+
+
+    } catch (error) {
+
+        return Promise.reject(error);
+
+    }
+
 })
 
 const userSlice = createSlice({
 
     name: 'userSlice',
     initialState: {
-        myProfile: {}
+        myProfile: null,
     },
     extraReducers: (builder) => {
-
-        builder.addCase(getMyProfile.fulfilled, (state, action) => {
-            state.myProfile = action.payload;
-        })
-
+        builder
+            .addCase(getMyProfile.fulfilled, (state, action) => {
+                state.myProfile = action.payload;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.myProfile = action.payload;
+            });
     }
 
 });

@@ -10,6 +10,8 @@ function Header() {
     const navigate = useNavigate();
     const myProfile = useSelector((state) => state.userReducer.myProfile);
 
+    console.log({ myProfile });
+
     return (
         <header className='header-wrapper'>
             <div className="logo">MyTube</div>
@@ -24,7 +26,9 @@ function Header() {
                     <RiVideoAddLine />
                 </div>
                 <div className="user-avatar" onClick={() => navigate(`/profile/${myProfile?.data._id}`)}>
-                    <img src={userImg} alt="User Avatar" />
+                    <img
+                        src={myProfile?.data?.profilePictureURL?.url ? myProfile?.data?.profilePictureURL?.url : userImg}
+                        alt="User Avatar" />
                 </div>
             </div>
         </header>

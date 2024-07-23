@@ -18,11 +18,6 @@ const updateProfileController = async (req, res) => {
     try {
 
         const curUserId = req._id;
-
-        if (!ChannleName) {
-            return res.send(ERROR(404, "channle name is must required"));
-        }
-
         const curUser = await User.findById(curUserId);
 
         if (!curUser) {
@@ -30,22 +25,19 @@ const updateProfileController = async (req, res) => {
         }
 
         console.log({ curUser });
-        const channleName = curUser.channleName;
-        const bio = curUser.bio;
-        const profilePicture = curUser.profilePictureURL
 
         if (ChannleName) {
-            channleName = ChannleName
+            curUser.channleName = ChannleName
         }
         if (Bio) {
-            bio = Bio
+            curUser.bio = Bio
         }
         if (ProfilePicture) {
 
-            const cloudImage = await cloudinary.uploader.upload(ProfilePicture, {
+            let cloudImage = await cloudinary.uploader.upload(ProfilePicture, {
                 folder: 'ytVideos'
             });
-            profilePicture = {
+            curUser.profilePictureURL = {
                 publicId: cloudImage.public_id,
                 url: cloudImage.secure_url
             }

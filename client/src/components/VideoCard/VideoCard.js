@@ -1,5 +1,6 @@
 import React from 'react';
 import './VideoCard.scss';
+import dummyImg from '../../assets/user.png';
 
 const VideoCard = ({ video }) => {
     return (
@@ -12,7 +13,7 @@ const VideoCard = ({ video }) => {
             </div>
             <div className="video-info">
                 <div className="owner-avatar">
-                    <img src={video.owner.avatar} alt={video.owner.avatar} />
+                    <img src={video.owner.avatar.url ? video.owner.avatar.url : dummyImg} alt='avatar' />
                 </div>
                 <div className="video-details">
                     <h3 className="title">{video.title}</h3>
