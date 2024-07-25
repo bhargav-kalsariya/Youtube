@@ -10,10 +10,20 @@ export const getAllVideos = createAsyncThunk('videos/getAll', async () => {
 
 })
 
+export const getUserProfile = createAsyncThunk('video/getUserProfile', async (body) => {
+
+    const response = await axiosClient.post('/user/othersProfile', body);
+
+    console.log({ userprofile: response.data.result });
+    return response.data.result;
+
+});
+
 const videoSlice = createSlice({
 
     name: "video",
     initialState: {
+        userProfile: null,
         videos: [],
         status: 'idle',
         error: null
@@ -31,6 +41,10 @@ const videoSlice = createSlice({
                 .addCase(getAllVideos.rejected, (state, action) => {
                     state.status = 'failed';
                     state.error = action.error.message
+                })
+                .addCase(getUserProfile.fulfilled, (state, action) => {
+                    state.status = 'succeeded';
+                    state.userProfile = action.payload
                 });
         }
 

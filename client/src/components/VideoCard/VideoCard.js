@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'
 import './VideoCard.scss';
 import dummyImg from '../../assets/user.png';
 
@@ -7,38 +8,48 @@ const VideoCard = ({ video }) => {
     const videoRef = useRef(null);
     const [isHovered, setIsHovered] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [playTimeout, setPlayTimeout] = useState(null);
-    const [pauseTimeout, setPauseTimeout] = useState(null);
     const [isMuted, setIsMuted] = useState(true);
+    const navigate = useNavigate();
+
+    // Debounce function
+    const debounce = (func, delay) => {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => func(...args), delay);
+        };
+    };
+
+    // Handle video play on hover
+    const handlePlay = debounce(() => {
+        if (videoRef.current) {
+            videoRef.current.muted = isMuted;
+            videoRef.current.play().catch((error) => console.log('Play error:', error));
+        }
+    }, 100);
+
+    // Handle video pause on mouse leave
+    const handlePause = debounce(() => {
+        if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0; // Optional: Reset video to the beginning
+        }
+    }, 100);
 
     const handleMouseEnter = () => {
-        clearTimeout(pauseTimeout);
-        const timeout = setTimeout(() => {
-            if (videoRef.current) {
-                videoRef.current.muted = isMuted;
-                videoRef.current.play();
-            }
-        }, 100); // Adjust the delay as needed
-        setPlayTimeout(timeout);
         setIsHovered(true);
+        handlePlay();
     };
 
     const handleMouseLeave = () => {
-        clearTimeout(playTimeout);
-        const timeout = setTimeout(() => {
-            if (videoRef.current) {
-                videoRef.current.pause();
-                videoRef.current.currentTime = 0; // Optional: Reset video to the beginning
-            }
-        }, 100); // Adjust the delay as needed
-        setPauseTimeout(timeout);
         setIsHovered(false);
+        handlePause();
     };
 
     const skipTo = (seconds) => {
         if (videoRef.current) {
             videoRef.current.currentTime += seconds;
-            videoRef.current.play(); // Ensure the video starts playing after skipping
+            videoRef.current.play().catch((error) => console.log('Play error:', error));
         }
     };
 
@@ -63,9 +74,7 @@ const VideoCard = ({ video }) => {
         if (isHovered) {
             requestAnimationFrame(updateProgress);
         }
-
-
-    }, [isHovered, playTimeout, pauseTimeout]);
+    }, [isHovered]);
 
     return (
         <div
@@ -95,7 +104,7 @@ const VideoCard = ({ video }) => {
                 )}
             </div>
             <div className="video-info">
-                <div className="owner-avatar">
+                <div className="owner-avatar" onClick={() => navigate(`/profile/${video.owner._id}`)}>
                     <img src={video.owner.avatar.url ? video.owner.avatar.url : dummyImg} alt='avatar' />
                 </div>
                 <div className="video-details">

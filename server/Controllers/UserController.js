@@ -1,8 +1,9 @@
 const User = require("../Models/User");
+const { mapVideoDetails } = require("../Utilities/Functions");
 const { ERROR, SUCCESS } = require("../Utilities/ResponseWrapper");
 const cloudinary = require('cloudinary').v2;
 
-const userProfileController = async (req, res) => {
+const myProfileController = async (req, res) => {
 
     const curUserId = req._id;
     const curUser = await User.findById(curUserId);
@@ -10,6 +11,32 @@ const userProfileController = async (req, res) => {
     return res.send(SUCCESS(200, curUser));
 
 }
+
+const userProfileController = async (req, res) => {
+
+    try {
+
+        const userId = req.body.userId;
+        const user = await User.findById(userId).populate({
+            path: 'videos',
+            populate: {
+                path: 'owner'
+            }
+        });
+
+        const fullvideos = user.videos;
+        const mappedvideos = fullvideos.map(video => mapVideoDetails(video, userId));
+
+        return res.send(SUCCESS(200, { ...user._doc, mappedvideos }));
+
+
+    } catch (error) {
+
+        return res.send(ERROR(500, error.message));
+
+    }
+
+};
 
 const updateProfileController = async (req, res) => {
 
@@ -55,4 +82,4 @@ const updateProfileController = async (req, res) => {
 
 }
 
-module.exports = { userProfileController, updateProfileController }
+module.exports = { myProfileController, updateProfileController, userProfileController }
