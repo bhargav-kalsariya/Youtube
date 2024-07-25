@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getMyProfile } from '../../redux/slices/userSlice'; // Adjust the import path as needed
+import { getMyProfile } from '../../redux/slices/userSlice';
 import './Profile.scss';
 import dummyImg from '../../assets/user.png';
 import { FaHome } from 'react-icons/fa';
@@ -16,31 +16,42 @@ function Profile() {
         dispatch(getMyProfile());
     }, [dispatch]);
 
-    console.log({ myProfile });
+    const handleBackToHome = () => {
+        navigate('/');
+    };
+
+    const handleUpdateProfile = () => {
+        navigate('/updateProfile');
+    };
 
     return (
         <div className="profile-page">
-            <div className="profile-header-buttons">
-                <button className="back-to-home-btn" onClick={() => navigate('/')}>
-                    <FaHome /> Back to Home
-                </button>
-                <button className="update-profile-btn" onClick={() => navigate(`/updateProfile`)}>
-                    <AiOutlineEdit /> Update Profile
-                </button>
-            </div>
+            <button className="back-to-home-btn" onClick={handleBackToHome}>
+                <FaHome /> Back to Home
+            </button>
+            <button className="update-profile-btn" onClick={handleUpdateProfile}>
+                <AiOutlineEdit /> Update Profile
+            </button>
             <header className="profile-header">
                 <div className="cover-photo"></div>
-                <div className="user-info">
+                <div className="profile-info-container">
                     <img
                         src={myProfile?.data ? myProfile?.data?.profilePictureURL?.url : dummyImg}
                         alt="User Avatar" className="user-avatar" />
-                    <div className="user-details">
-                        <h1 className="user-name">{myProfile?.data?.channleName}</h1>
-                        <p className="user-subscribers">{myProfile?.data?.subscribers.length} subscribers</p>
+                    <div className="profile-details">
+                        <h1 className="profile-name">{myProfile?.data?.channleName}</h1>
+                        <p className="profile-subscribers">{myProfile?.data?.subscribers.length} subscribers</p>
+                        <div className="profile-actions">
+                            <button className="subscribe-btn">Subscribe</button>
+                            <button className="join-btn">Join</button>
+                        </div>
+                        <div className="profile-links">
+                            <a href={myProfile?.data?.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
+                        </div>
                     </div>
                 </div>
             </header>
-            <section className="user-statistics">
+            <section className="profile-statistics">
                 <div className="statistic">
                     <span className="statistic-value">{myProfile?.data?.videos.length} </span>
                     <span className="statistic-label">Videos</span>
@@ -54,10 +65,6 @@ function Profile() {
                     <span className="statistic-label">Likes</span>
                 </div>
             </section>
-            {/* <section className="user-videos">
-                <h2>Uploads</h2>
-                <VideoGrid videos={myProfile.videos} />
-            </section> */}
         </div>
     );
 }

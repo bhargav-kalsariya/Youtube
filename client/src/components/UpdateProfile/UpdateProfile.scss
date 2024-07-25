@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background: #f0f2f5;
+  background: #f4f7f9;
   min-height: 100vh;
 
   .back-to-home {
@@ -11,12 +11,12 @@
     align-items: center;
     cursor: pointer;
     margin-bottom: 20px;
-    color: #495057;
+    color: #007bff;
     font-size: 18px;
     transition: color 0.3s ease;
 
     &:hover {
-      color: #343a40;
+      color: #0056b3;
     }
 
     svg {
@@ -28,7 +28,7 @@
     display: flex;
     max-width: 900px;
     width: 100%;
-    background: #fff;
+    background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -38,8 +38,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #e9ecef;
-      border-right: 1px solid #dee2e6;
+      background: #e6f0ff;
+      border-right: 1px solid #e0e0e0;
       padding: 40px;
 
       .input-user-img {
@@ -48,11 +48,11 @@
         height: 180px;
         border-radius: 50%;
         overflow: hidden;
-        border: 5px solid #6c757d;
+        border: 5px solid #007bff;
         transition: border 0.3s ease;
 
         &:hover {
-          border: 5px solid #343a40;
+          border: 5px solid #0056b3;
         }
 
         .lableImg {
@@ -91,8 +91,8 @@
           transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
           &:focus {
-            border-color: #495057;
-            box-shadow: 0 0 8px rgba(73, 80, 87, 0.3);
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
             outline: none;
           }
         }
@@ -100,7 +100,7 @@
         .btn-primary {
           width: 100%;
           padding: 15px 20px;
-          background-color: #495057;
+          background-color: #007bff;
           color: #fff;
           border: none;
           border-radius: 8px;
@@ -109,8 +109,8 @@
           transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
           &:hover {
-            background-color: #343a40;
-            box-shadow: 0 8px 15px rgba(73, 80, 87, 0.2);
+            background-color: #0056b3;
+            box-shadow: 0 8px 15px rgba(0, 123, 255, 0.2);
           }
         }
       }
