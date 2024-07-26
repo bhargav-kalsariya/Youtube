@@ -7,6 +7,7 @@ import dummyImg from '../../assets/user.png';
 import { FaHome } from 'react-icons/fa';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { getUserProfile } from '../../redux/slices/videoSlice';
+import { subscribe_unsubscribe } from '../../redux/slices/feedSlice';
 
 function Profile() {
 
@@ -15,9 +16,12 @@ function Profile() {
     const dispatch = useDispatch();
     const myProfile = useSelector((state) => state.userReducer.myProfile);
     const userProfile = useSelector((state) => state.videoReducer.userProfile);
-    const [isMyProfile, setMyProfile] = useState(false);
+    const feedData = useSelector((state) => state.feedReducer.feedData);
 
-    console.log({ myProfile });
+    const [isMyProfile, setMyProfile] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(false);
+
+    console.log({ feedData });
 
     useEffect(() => {
 
@@ -25,9 +29,14 @@ function Profile() {
             userId: params.userId,
         }));
 
-        setMyProfile(myProfile?.data._id == params.userId);
+        setIsSubscribed(feedData?.data?.subscribers?.includes(myProfile?.data?._id));
+        setMyProfile(myProfile?.data._id === params.userId);
 
-    }, [dispatch, myProfile, params.userId]);
+    }, [dispatch, myProfile, feedData, params.userId]);
+
+    useEffect(() => {
+        dispatch(getMyProfile());
+    }, [dispatch]);
 
     const handleBackToHome = () => {
         navigate('/');
@@ -36,6 +45,12 @@ function Profile() {
     const handleUpdateProfile = () => {
         navigate('/updateProfile');
     };
+
+    function handleSubscribe() {
+        dispatch(subscribe_unsubscribe({
+            userId: params.userId,
+        }));
+    }
 
     return (
         <div className="profile-page">
@@ -55,7 +70,9 @@ function Profile() {
                         <h1 className="profile-name">{userProfile?.data?.channleName}</h1>
                         <p className="profile-subscribers">{userProfile?.data?.subscribers.length} subscribers</p>
                         {!isMyProfile && <div className="profile-actions">
-                            <button className="subscribe-btn">Subscribe</button>
+                            <button className="subscribe-btn" onClick={handleSubscribe}>
+                                {isSubscribed ? 'UnSubscribe' : 'Subscribe'}
+                            </button>
                             <button className="join-btn">Join</button>
                         </div>}
                         <div className="profile-links">

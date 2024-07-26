@@ -84,14 +84,6 @@ a {
   user-select: none;
 }
 
-.btn-primary:hover {
-  background-color: #9800df;
-}
-
-.btn-primary:active {
-  background-color: #b413ff;
-}
-
 .heading {
   font-size: 1.6rem;
   font-weight: 700;

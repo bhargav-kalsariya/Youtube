@@ -3,7 +3,7 @@ import VideoGrid from '../../components/VideoGrid/VideoGrid';
 import Header from '../../components/Header/Header';
 import SideBar from '../../components/SideBar/SideBar';
 import './Home.scss';
-import { getAllVideos } from '../../redux/slices/videoSlice';
+import { getAllVideos } from '../../redux/slices/feedSlice';
 import { getMyProfile } from '../../redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 
@@ -17,9 +17,9 @@ function Home() {
     }, [dispatch])
 
     return (
-        <div className="home">
+        <div className="app-container">
             <Header />
-            <div className="content">
+            <div className="main-content">
                 <SideBar />
                 <VideoGrid />
             </div>

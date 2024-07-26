@@ -1,0 +1,64 @@
+.subscriptions-page {
+  padding: 20px;
+  background-color: #181818;
+  color: #fff;
+
+  .page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .subscriptions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .subscription-item {
+      display: flex;
+      align-items: center;
+      background-color: #202020;
+      padding: 10px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 300px;
+
+      .channel-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+      }
+
+      .channel-info {
+        flex: 1;
+
+        .channel-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+
+        .notification-btn {
+          display: flex;
+          align-items: center;
+          background-color: #cc0000;
+          color: #fff;
+          padding: 5px 10px;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+          font-size: 14px;
+
+          svg {
+            margin-right: 5px;
+          }
+
+          &:hover {
+            background-color: #e60000;
+          }
+        }
+      }
+    }
+  }
+}

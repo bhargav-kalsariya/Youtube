@@ -1,15 +1,9 @@
 .video-card {
   display: flex;
   flex-direction: column;
-  border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
 
   .video-container {
     position: relative;
@@ -52,7 +46,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 5px;
+      height: 3px;
       background-color: rgba(0, 0, 0, 0.3);
 
       .progress-bar {
@@ -109,17 +103,18 @@
         font-weight: bold;
         margin: 0 0 5px;
         overflow: hidden;
+        color: white;
         word-break: break-word;
       }
 
       .owner-name {
         font-size: 14px;
-        color: #606060;
+        color: #9a8a8a;
       }
 
       .views-time {
         font-size: 14px;
-        color: #606060;
+        color: #9a8a8a;
       }
     }
   }

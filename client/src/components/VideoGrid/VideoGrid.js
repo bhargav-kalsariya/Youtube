@@ -4,15 +4,7 @@ import VideoCard from '../VideoCard/VideoCard';
 import './VideoGrid.scss';
 
 const VideoGrid = () => {
-    const { videos, status, error } = useSelector((state) => state.videoReducer);
-
-    if (status === 'loading') {
-        return <div>Loading...</div>;
-    }
-
-    if (status === 'failed') {
-        return <div>{error}</div>;
-    }
+    const { videos } = useSelector((state) => state.feedReducer);
 
     return (
         <div className="video-grid">

@@ -1,9 +1,17 @@
-.home {
+.app-container {
   display: flex;
-  flex-direction: column;
+  height: 100vh;
+  background-color: #181818;
+  color: #fff;
 
-  .content {
-    display: flex;
-    margin-top: 60px; // Adjust according to your header height
+  .sidebar {
+    flex: 0 0 240px; /* Fixed width for the sidebar */
+  }
+
+  .main-content {
+    flex: 1;
+    margin-left: 240px; /* Space for the sidebar */
+    padding: 20px;
+    overflow-y: auto;
   }
 }

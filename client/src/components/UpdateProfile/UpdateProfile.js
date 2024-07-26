@@ -80,7 +80,7 @@ function UpdateProfile() {
                         <input value={Bio} type="text" placeholder='Your Bio' onChange={(e) => setBio(e.target.value)} />
                         <input type="submit" className='btn-primary' value="Update Profile" />
                     </form>
-                    <input type="submit" className='btn-primary delete-account' value='Delete Account' />
+                    <input type="submit" className='btn-primary' value='Delete Account' />
                 </div>
             </div>
         </div>

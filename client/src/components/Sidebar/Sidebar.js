@@ -1,35 +1,38 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { FaHome, FaFire, FaRegFileVideo, FaHistory, FaThumbsUp, FaCog } from 'react-icons/fa';
 import './SideBar.scss';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
+
+    const naviagte = useNavigate();
+
     return (
         <div className="sidebar">
-            <NavLink to="/" exact activeClassName="active">
+            <div exact activeClassName="active">
                 <FaHome />
                 <span>Home</span>
-            </NavLink>
-            <NavLink to="/trending" activeClassName="active">
+            </div>
+            <div activeClassName="active">
                 <FaFire />
                 <span>Trending</span>
-            </NavLink>
-            <NavLink to="/subscriptions" activeClassName="active">
+            </div>
+            <div onClick={() => naviagte('/subscription')} activeClassName="active">
                 <FaRegFileVideo />
                 <span>Subscriptions</span>
-            </NavLink>
-            <NavLink to="/library" activeClassName="active">
+            </div>
+            <div activeClassName="active">
                 <FaHistory />
                 <span>Library</span>
-            </NavLink>
-            <NavLink to="/liked-videos" activeClassName="active">
+            </div>
+            <div activeClassName="active">
                 <FaThumbsUp />
                 <span>Liked Videos</span>
-            </NavLink>
-            <NavLink to="/settings" activeClassName="active">
+            </div>
+            <div activeClassName="active">
                 <FaCog />
                 <span>Settings</span>
-            </NavLink>
+            </div>
         </div>
     );
 };

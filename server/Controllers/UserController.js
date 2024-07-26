@@ -16,7 +16,7 @@ const userProfileController = async (req, res) => {
 
     try {
 
-        const userId = req.body.userId;
+        const { userId } = req.body;
         const user = await User.findById(userId).populate({
             path: 'videos',
             populate: {
@@ -82,4 +82,42 @@ const updateProfileController = async (req, res) => {
 
 }
 
-module.exports = { myProfileController, updateProfileController, userProfileController }
+const subscribe_unsubscribeController = async (req, res) => {
+
+    try {
+
+        const { userId } = req.body;
+        const curUserId = req._id;
+        const user = await User.findById(userId);
+        const curUser = await User.findById(curUserId);
+
+        if (!user) {
+            return res.send(ERROR(404, 'user not found'));
+        }
+
+        if (curUser.subscriptions.includes(userId)) {
+            const subscriptionsIndex = curUser.subscriptions.indexOf(userId);
+            curUser.subscriptions.splice(subscriptionsIndex, 1);
+
+            const subscribersIndex = user.subscribers.indexOf(curUserId);
+            user.subscribers.splice(subscribersIndex, 1);
+        }
+        else {
+            curUser.subscriptions.push(userId);
+            user.subscribers.push(curUserId);
+        }
+
+        await user.save();
+        await curUser.save();
+
+        return res.send(SUCCESS(200, user))
+
+    } catch (error) {
+
+        return res.send(ERROR(500, error.message));
+
+    }
+
+};
+
+module.exports = { myProfileController, updateProfileController, userProfileController, subscribe_unsubscribeController }
