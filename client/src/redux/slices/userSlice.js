@@ -23,10 +23,9 @@ export const updateProfile = createAsyncThunk('user/updateProfile', async (body)
     try {
 
         const response = await axiosClient.post('/user/updateProfile', body);
-        console.log({ response });
         const updatedProfile = response.data.result;
-        console.log({ updatedProfile });
 
+        return updatedProfile;
 
     } catch (error) {
 

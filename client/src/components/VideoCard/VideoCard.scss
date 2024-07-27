@@ -1,14 +1,13 @@
 .video-card {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.3s;
 
   .video-container {
     position: relative;
     width: 100%;
-    height: 180px; /* Initial height to show a portion of the video */
+    height: 220px;
     overflow: hidden;
     transition: height 0.3s ease;
 
@@ -16,7 +15,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      pointer-events: none; /* Prevent the video controls from being interactive */
+      pointer-events: none;
+      border-radius: 8px;
     }
 
     .controls {

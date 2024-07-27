@@ -5,6 +5,8 @@ import './VideoCard.scss';
 import dummyImg from '../../assets/user.png';
 
 const VideoCard = ({ video }) => {
+
+    console.log({ video });
     const videoRef = useRef(null);
     const [isHovered, setIsHovered] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -32,7 +34,6 @@ const VideoCard = ({ video }) => {
     const handlePause = debounce(() => {
         if (videoRef.current) {
             videoRef.current.pause();
-            videoRef.current.currentTime = 0; // Optional: Reset video to the beginning
         }
     }, 100);
 

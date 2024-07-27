@@ -1,37 +1,48 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSubscriptions } from '../../redux/slices/userSlice'; // Adjust the import path as needed
 import './Subscriptions.scss';
-import { FaBell } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { getMyProfile } from '../../redux/slices/userSlice';
+import { FaHome } from 'react-icons/fa';
 
 function Subscriptions() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const myProfile = useSelector((state) => state.userReducer.myProfile);
+    const subscriptions = myProfile?.data?.subscriptions;
+    console.log({ subscriptions });
 
-    console.log({ myProfile });
+    useEffect(() => {
+        dispatch(getMyProfile());
+    }, [dispatch]);
+
+    const handleBackToHome = () => {
+        navigate('/');
+    };
 
     return (
-        // <div className="subscriptions-page">
-        //     <h1 className="page-title">Subscriptions</h1>
-        //     <div className="subscriptions-list">
-        //         {subscriptions?.map((subscription) => (
-        //             <div key={subscription.id} className="subscription-item">
-        //                 <img
-        //                     src={subscription.profilePictureURL || dummyImg}
-        //                     alt={subscription.channelName}
-        //                     className="channel-avatar"
-        //                 />
-        //                 <div className="channel-info">
-        //                     <h2 className="channel-name">{subscription.channelName}</h2>
-        //                     <button className="notification-btn">
-        //                         <FaBell /> Notifications
-        //                     </button>
-        //                 </div>
-        //             </div>
-        //         ))}
-        //     </div>
-        // </div>
-        "hi"
+        <div className="subscriptions-page">
+            <button className="back-to-home-btn" onClick={handleBackToHome}>
+                <FaHome /> Back to Home
+            </button>
+            <h1 className="page-title">Subscriptions</h1>
+            <div className="subscriptions-list">
+                {subscriptions?.map((subscription) => (
+                    <div key={subscription._id} className="subscription-item"
+                        onClick={() => navigate(`/profile/${subscription._id}`)}>
+                        <img
+                            src={subscription.profilePictureURL.url}
+                            alt={subscription.channleName}
+                            className="channel-avatar"
+                        />
+                        <div className="subscription-info">
+                            <h3 className="channel-name">{subscription.channleName}</h3>
+                            <p className="subscriber-count">{subscription.subscribers.length} Subscribers</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 }
 

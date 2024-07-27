@@ -1,14 +1,25 @@
+$primary-color: #fff; // White for text
+$secondary-color: #b3b3b3; // Light gray for secondary text
+$background-color: #181818; // Black theme background
+$item-background-color: #282828; // Dark gray for items
+$hover-background-color: #383838; // Slightly lighter gray for hover effect
+$input-border-color: #404040; // Border color for inputs
+$button-background-color: #3ea6ff; // YouTube button color
+$button-hover-background-color: #0084cc; // YouTube button hover color
+
 .createVideo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  height: 100vh;
+  background-color: $background-color; // Dark background color
 
   .back-to-home {
     display: flex;
     align-items: center;
     cursor: pointer;
-    color: #007bff;
+    color: $button-background-color;
     font-size: 16px;
     margin-bottom: 20px;
 
@@ -24,7 +35,7 @@
   .createVideo {
     width: 100%;
     max-width: 600px;
-    background: #fff;
+    background: $item-background-color; // Dark item background
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -39,8 +50,10 @@
           width: 100%;
           padding: 10px;
           margin-bottom: 10px;
-          border: 1px solid #ccc;
+          border: 1px solid $input-border-color; // Darker border for inputs
           border-radius: 4px;
+          background-color: $background-color; // Input background
+          color: $primary-color; // White text
         }
 
         .video-preview {
@@ -48,7 +61,7 @@
 
           video {
             width: 100%;
-            border: 1px solid #ccc;
+            border: 1px solid $input-border-color; // Darker border for video
             border-radius: 4px;
           }
         }
@@ -67,11 +80,11 @@
               align-items: center;
               cursor: pointer;
               font-size: 24px;
-              color: #007bff;
+              color: $button-background-color;
               margin-right: 10px;
 
               &:hover {
-                color: #0056b3;
+                color: $button-hover-background-color;
               }
             }
 
@@ -82,15 +95,15 @@
 
           .post-btn {
             padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
+            background-color: $button-background-color;
+            color: $primary-color;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
 
             &:hover {
-              background-color: #0056b3;
+              background-color: $button-hover-background-color;
             }
           }
         }

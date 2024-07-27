@@ -8,6 +8,7 @@ import { FaHome } from 'react-icons/fa';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { getUserProfile } from '../../redux/slices/videoSlice';
 import { subscribe_unsubscribe } from '../../redux/slices/feedSlice';
+import VideoCard from '../VideoCard/VideoCard';
 
 function Profile() {
 
@@ -18,25 +19,29 @@ function Profile() {
     const userProfile = useSelector((state) => state.videoReducer.userProfile);
     const feedData = useSelector((state) => state.feedReducer.feedData);
 
-    const [isMyProfile, setMyProfile] = useState(false);
+    const [isMyProfile, setIsMyProfile] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
 
-    console.log({ feedData });
-
-    useEffect(() => {
-
-        dispatch(getUserProfile({
-            userId: params.userId,
-        }));
-
-        setIsSubscribed(feedData?.data?.subscribers?.includes(myProfile?.data?._id));
-        setMyProfile(myProfile?.data._id === params.userId);
-
-    }, [dispatch, myProfile, feedData, params.userId]);
+    console.log({ myProfile, userProfile });
 
     useEffect(() => {
         dispatch(getMyProfile());
-    }, [dispatch]);
+        dispatch(getUserProfile({ userId: params.userId }));
+    }, [dispatch, params.userId]);
+
+    useEffect(() => {
+
+        if (myProfile?.data && userProfile?.data) {
+            setIsSubscribed(userProfile.data.subscribers.includes(myProfile.data._id));
+            setIsMyProfile(myProfile.data._id === params.userId);
+        }
+    }, [myProfile, userProfile, feedData, params.userId]);
+
+    function handleSubscribe() {
+        dispatch(subscribe_unsubscribe({
+            userId: params.userId,
+        }));
+    }
 
     const handleBackToHome = () => {
         navigate('/');
@@ -45,12 +50,6 @@ function Profile() {
     const handleUpdateProfile = () => {
         navigate('/updateProfile');
     };
-
-    function handleSubscribe() {
-        dispatch(subscribe_unsubscribe({
-            userId: params.userId,
-        }));
-    }
 
     return (
         <div className="profile-page">
@@ -93,6 +92,14 @@ function Profile() {
                 <div className="statistic">
                     <span className="statistic-value">{userProfile?.likesCount}</span>
                     <span className="statistic-label">Likes</span>
+                </div>
+            </section>
+            <section className="profile-videos">
+                <h2 className="section-title">Videos</h2>
+                <div className="videos-list">
+                    {userProfile?.data?.mappedvideos.map((video) => (
+                        <VideoCard key={video._id} video={video} />
+                    ))}
                 </div>
             </section>
         </div>

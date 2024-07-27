@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const myProfileController = async (req, res) => {
 
     const curUserId = req._id;
-    const curUser = await User.findById(curUserId);
+    const curUser = await User.findById(curUserId).populate('subscriptions');
 
     return res.send(SUCCESS(200, curUser));
 
@@ -50,9 +50,6 @@ const updateProfileController = async (req, res) => {
         if (!curUser) {
             return res.send(ERROR(404, "user not found"));
         }
-
-        console.log({ curUser });
-
         if (ChannleName) {
             curUser.channleName = ChannleName
         }

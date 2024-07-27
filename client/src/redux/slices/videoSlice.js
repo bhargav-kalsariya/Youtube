@@ -5,7 +5,6 @@ export const getUserProfile = createAsyncThunk('video/getUserProfile', async (bo
 
     const response = await axiosClient.post('/user/othersProfile', body);
 
-    console.log({ userprofile: response.data.result });
     return response.data.result;
 
 });
