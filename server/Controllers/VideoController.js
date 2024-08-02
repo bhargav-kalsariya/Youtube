@@ -49,7 +49,7 @@ const getAllVideocontroller = async (req, res) => {
     const curUserId = req._id;
     const videos = await Video.find().populate('owner');
 
-    const mappedVideoDetails = videos.map(video => mapVideoDetails(video, curUserId));
+    const mappedVideoDetails = videos.map(video => mapVideoDetails(video, curUserId)).reverse();
 
     return res.send(SUCCESS(200, mappedVideoDetails));
 
@@ -77,6 +77,88 @@ const addViewController = async (req, res) => {
         video.viewedBy.push(curUserId);
 
         await video.save();
+        return res.send(SUCCESS(200, 'view added successfully'));
+
+    } catch (error) {
+
+        console.error('Error uploading video:', error);
+        return res.status(500).send(ERROR(500, error.message));
+
+    }
+
+};
+
+const videoLikeController = async (req, res) => {
+
+    try {
+
+        const { videoId } = req.body;
+        const curUserId = req._id;
+
+        const video = await Video.findById(videoId);
+        const curUser = await User.findById(curUserId);
+
+        if (!video || !curUser) {
+            return res.send(SUCCESS(404, 'video or user not found'));
+        }
+
+        if (video.likes.includes(curUserId)) {
+
+            video.likes.pull(curUserId);
+            curUser.likedVideos.pull(videoId);
+
+        } else {
+
+            if (video.dislikes.includes(curUserId)) {
+                video.dislikes.pull(curUserId);
+            }
+            video.likes.push(curUserId);
+            curUser.likedVideos.push(videoId);
+
+        }
+
+        await video.save();
+        await curUser.save();
+
+        return res.send(SUCCESS(200, video));
+
+    } catch (error) {
+
+        console.error('Error uploading video:', error);
+        return res.status(500).send(ERROR(500, error.message));
+
+    }
+
+};
+
+const videoDislikeController = async (req, res) => {
+
+    try {
+
+        const { videoId } = req.body;
+        const curUserId = req._id;
+
+        const video = await Video.findById(videoId);
+        const curUser = await User.findById(curUserId);
+
+        if (!video || !curUser) {
+            return res.send(SUCCESS(404, 'video or user not found'));
+        }
+
+        if (video.dislikes.includes(curUserId)) {
+
+            video.dislikes.pull(curUserId);
+
+        } else {
+
+            if (video.likes.includes(curUserId)) {
+                video.likes.pull(curUserId);
+            }
+            video.dislikes.push(curUserId);
+
+        }
+
+        await video.save();
         return res.send(SUCCESS(200, video));
 
     } catch (error) {
@@ -91,5 +173,7 @@ const addViewController = async (req, res) => {
 module.exports = {
     createVideoController,
     getAllVideocontroller,
-    addViewController
+    addViewController,
+    videoLikeController,
+    videoDislikeController
 };
