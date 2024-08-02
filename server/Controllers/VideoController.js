@@ -77,7 +77,7 @@ const addViewController = async (req, res) => {
         video.viewedBy.push(curUserId);
 
         await video.save();
-        return res.send(SUCCESS(200, 'view added successfully'));
+        return res.send(SUCCESS(200, video));
 
     } catch (error) {
 

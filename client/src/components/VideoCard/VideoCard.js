@@ -4,21 +4,34 @@ import { useNavigate } from 'react-router-dom';
 import './VideoCard.scss';
 import dummyImg from '../../assets/user.png';
 import { axiosClient } from '../../utilities/axiosClient';
+import { useDispatch } from 'react-redux';
+import { getAllVideos } from '../../redux/slices/feedSlice';
 
 const VideoCard = ({ video }) => {
-    const videoRef = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [isMuted, setIsMuted] = useState(true);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const videoRef = useRef(null);
     const animationFrameId = useRef(null);
     const videoId = video._id;
+    const [progress, setProgress] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
+    const [isViewUpdated, setIsViewUpdated] = useState(false);
 
     async function handleVideoClick() {
 
         const response = await axiosClient.post('/video/addView', { videoId });
-        console.log({ isViewAdded: response });
+        if (response.data.result) {
+            return setIsViewUpdated(true);
+        }
+        return response.data.result;
+
     }
+
+    useEffect(() => {
+        dispatch(getAllVideos());
+    }, [dispatch, isViewUpdated]);
 
     const debounce = useCallback((func, delay) => {
         let timer;
