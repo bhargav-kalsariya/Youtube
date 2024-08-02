@@ -31,6 +31,10 @@ const video = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    viewedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     uploadDate: {
         type: Date,
         default: Date.now

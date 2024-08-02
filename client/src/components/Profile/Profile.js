@@ -25,9 +25,12 @@ function Profile() {
     console.log({ myProfile, userProfile });
 
     useEffect(() => {
-        dispatch(getMyProfile());
         dispatch(getUserProfile({ userId: params.userId }));
-    }, [dispatch, params.userId]);
+    }, [dispatch, myProfile, params.userId]);
+
+    useEffect(() => {
+        dispatch(getMyProfile());
+    }, [dispatch])
 
     useEffect(() => {
 

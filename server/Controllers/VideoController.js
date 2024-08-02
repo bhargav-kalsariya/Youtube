@@ -5,7 +5,9 @@ const User = require('../Models/User');
 const { mapVideoDetails } = require('../Utilities/Functions');
 
 const createVideoController = async (req, res) => {
+
     try {
+
         const { title, description, postVideo } = req.body;
         const owner = req._id;
         const curUser = await User.findById(owner);
@@ -33,9 +35,12 @@ const createVideoController = async (req, res) => {
         await curUser.save();
 
         return res.status(201).send(SUCCESS(201, createdVideo));
+
     } catch (error) {
+
         console.error('Error uploading video:', error);
         return res.status(500).send(ERROR(500, error.message));
+
     }
 };
 
@@ -50,7 +55,39 @@ const getAllVideocontroller = async (req, res) => {
 
 };
 
+const addViewController = async (req, res) => {
+
+    try {
+
+        const { videoId } = req.body;
+        const curUserId = req._id;
+
+        const video = await Video.findById(videoId);
+        const curUser = await User.findById(curUserId);
+
+        if (!video || !curUser) {
+            return res.send(SUCCESS(404, 'video or user not found'));
+        }
+
+        if (!video.viewedBy.includes(curUserId)) {
+            video.views += 1;
+            return video.viewedBy.push(curUserId);
+        }
+
+        await video.save();
+        return res.send(SUCCESS(200, video));
+
+    } catch (error) {
+
+        console.error('Error uploading video:', error);
+        return res.status(500).send(ERROR(500, error.message));
+
+    }
+
+};
+
 module.exports = {
     createVideoController,
-    getAllVideocontroller
+    getAllVideocontroller,
+    addViewController
 };
