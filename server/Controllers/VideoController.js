@@ -69,13 +69,15 @@ const addViewController = async (req, res) => {
             return res.send(SUCCESS(404, 'video or user not found'));
         }
 
-        if (!video.viewedBy.includes(curUserId)) {
-            video.views += 1;
-            return video.viewedBy.push(curUserId);
+        if (video.viewedBy.includes(curUserId)) {
+            return
         }
 
+        video.views += 1;
+        video.viewedBy.push(curUserId);
+
         await video.save();
-        return res.send(SUCCESS(200, video));
+        return res.send(SUCCESS(200, 'view added successfully'));
 
     } catch (error) {
 

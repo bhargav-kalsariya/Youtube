@@ -1,28 +1,33 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import './VideoCard.scss';
 import dummyImg from '../../assets/user.png';
+import { axiosClient } from '../../utilities/axiosClient';
 
 const VideoCard = ({ video }) => {
-
-    console.log({ video });
     const videoRef = useRef(null);
     const [isHovered, setIsHovered] = useState(false);
     const [progress, setProgress] = useState(0);
     const [isMuted, setIsMuted] = useState(true);
     const navigate = useNavigate();
+    const animationFrameId = useRef(null);
+    const videoId = video._id;
 
-    // Debounce function
-    const debounce = (func, delay) => {
+    async function handleVideoClick() {
+
+        const response = await axiosClient.post('/video/addView', { videoId });
+        console.log({ isViewAdded: response });
+    }
+
+    const debounce = useCallback((func, delay) => {
         let timer;
         return (...args) => {
             clearTimeout(timer);
             timer = setTimeout(() => func(...args), delay);
         };
-    };
+    }, []);
 
-    // Handle video play on hover
     const handlePlay = debounce(() => {
         if (videoRef.current) {
             videoRef.current.muted = isMuted;
@@ -30,7 +35,6 @@ const VideoCard = ({ video }) => {
         }
     }, 100);
 
-    // Handle video pause on mouse leave
     const handlePause = debounce(() => {
         if (videoRef.current) {
             videoRef.current.pause();
@@ -66,15 +70,23 @@ const VideoCard = ({ video }) => {
             if (videoRef.current) {
                 const percentage = (videoRef.current.currentTime / videoRef.current.duration) * 100;
                 setProgress(percentage);
-            }
-            if (isHovered) {
-                requestAnimationFrame(updateProgress);
+                animationFrameId.current = requestAnimationFrame(updateProgress);
             }
         };
 
         if (isHovered) {
-            requestAnimationFrame(updateProgress);
+            animationFrameId.current = requestAnimationFrame(updateProgress);
+        } else {
+            if (animationFrameId.current) {
+                cancelAnimationFrame(animationFrameId.current);
+            }
         }
+
+        return () => {
+            if (animationFrameId.current) {
+                cancelAnimationFrame(animationFrameId.current);
+            }
+        };
     }, [isHovered]);
 
     return (
@@ -82,6 +94,7 @@ const VideoCard = ({ video }) => {
             className="video-card"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onClick={handleVideoClick}
         >
             <div className="video-container">
                 <video ref={videoRef} width="100%" height="auto">
@@ -110,7 +123,7 @@ const VideoCard = ({ video }) => {
                 </div>
                 <div className="video-details">
                     <h3 className="title">{video.title}</h3>
-                    <p className="owner-name">{video.owner.channleName}</p>
+                    <p className="owner-name">{video.owner.channelName}</p>
                     <p className="views-time">{video.viewsCount} views • {video.timeAgo}</p>
                 </div>
             </div>
