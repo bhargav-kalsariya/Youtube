@@ -119,8 +119,7 @@ const videoLikeController = async (req, res) => {
 
         await video.save();
         await curUser.save();
-
-        return res.send(SUCCESS(200, video));
+        return res.send(SUCCESS(200, 'liked successfully'));
 
     } catch (error) {
 
@@ -159,7 +158,7 @@ const videoDislikeController = async (req, res) => {
         }
 
         await video.save();
-        return res.send(SUCCESS(200, video));
+        return res.send(SUCCESS(200, 'disliked successfully'));
 
     } catch (error) {
 

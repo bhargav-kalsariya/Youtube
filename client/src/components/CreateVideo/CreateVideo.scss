@@ -4,8 +4,8 @@ $background-color: #181818; // Black theme background
 $item-background-color: #282828; // Dark gray for items
 $hover-background-color: #383838; // Slightly lighter gray for hover effect
 $input-border-color: #404040; // Border color for inputs
-$button-background-color: #3ea6ff; // YouTube button color
-$button-hover-background-color: #0084cc; // YouTube button hover color
+$button-background-color: rgb(223, 29, 29); // YouTube button color
+$button-hover-background-color: red; // YouTube button hover color
 
 .createVideo-container {
   display: flex;

@@ -18,6 +18,22 @@ export const subscribe_unsubscribe = createAsyncThunk('user/subscribe_unsubscrib
 
 });
 
+export const likeThisVideo = createAsyncThunk('video/like', async (body) => {
+
+    const response = await axiosClient.post('/video/like', body);
+    console.log({ like: response.data });
+    return response.data.result;
+
+});
+
+export const dislikeThisVideo = createAsyncThunk('video/dislike', async (body) => {
+
+    const response = await axiosClient.post('/video/dislike', body);
+    console.log({ dislike: response.data });
+    return response.data.result;
+
+});
+
 const feedSlice = createSlice({
 
     name: "feedSlice",

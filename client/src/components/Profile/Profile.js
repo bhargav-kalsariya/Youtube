@@ -22,11 +22,11 @@ function Profile() {
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
 
-    console.log({ myProfile, userProfile });
+    console.log({ myProfile, feedData });
 
     useEffect(() => {
         dispatch(getUserProfile({ userId: params.userId }));
-    }, [dispatch, myProfile, params.userId]);
+    }, [dispatch, myProfile, feedData, params.userId]);
 
     useEffect(() => {
         dispatch(getMyProfile());
@@ -38,7 +38,7 @@ function Profile() {
             setIsSubscribed(userProfile.data.subscribers.includes(myProfile.data._id));
             setIsMyProfile(myProfile.data._id === params.userId);
         }
-    }, [myProfile, userProfile, feedData, params.userId]);
+    }, [dispatch, myProfile, userProfile, feedData, params.userId]);
 
     function handleSubscribe() {
         dispatch(subscribe_unsubscribe({

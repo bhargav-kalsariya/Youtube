@@ -107,7 +107,7 @@ const subscribe_unsubscribeController = async (req, res) => {
         await user.save();
         await curUser.save();
 
-        return res.send(SUCCESS(200, user))
+        return res.send(SUCCESS(200, 'subscription status updated'));
 
     } catch (error) {
 
