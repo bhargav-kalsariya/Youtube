@@ -1,0 +1,151 @@
+.video-player-page {
+  display: flex;
+  padding: 20px;
+  background-color: #181818;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+.main-content {
+  width: 70%;
+  margin-left: 70px;
+
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #555;
+    }
+  }
+}
+
+.video-card {
+  background-color: #202020;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+
+  video {
+    width: 100%;
+    height: auto;
+  }
+
+  .video-info {
+    display: flex;
+    gap: 6px;
+    flex-direction: column;
+
+    h1 {
+      font-size: 20px;
+      color: #ffffff;
+      margin: 0;
+      padding: 0 20px;
+      margin-bottom: 10px;
+    }
+
+    .channel-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      .left-part {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 5px;
+        .channel-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        .channel-details {
+          display: flex;
+          flex-direction: column;
+          margin-right: 20px; /* Add some space between channel details and the subscribe button */
+
+          .channel-name {
+            font-size: 18px;
+            color: #ffffff; /* Ensure channel name is white */
+            margin: 0;
+          }
+
+          .subscriber-count {
+            font-size: 14px;
+            color: #b3b3b3;
+            margin: 5px 0;
+          }
+        }
+
+        .subscribe-button {
+          background-color: #cc0000;
+          color: #ffffff;
+          border: none;
+          border-radius: 5px;
+          padding: 5px 10px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: background-color 0.3s;
+          margin-right: 20px; /* Add some space between the subscribe button and the like/dislike buttons */
+
+          &:hover {
+            background-color: #e60000;
+          }
+        }
+      }
+      .right-part {
+        .video-actions {
+          display: flex;
+          align-items: center;
+
+          .action-button {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+
+            &:hover {
+              color: #ffffff;
+            }
+
+            .like-icon {
+              display: flex;
+              align-items: center;
+              margin-right: 5px; /* Add space between the icon and the like count */
+            }
+
+            .like-count {
+              font-size: 14px;
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.suggested-videos {
+  margin-top: 20px;
+  width: 100%;
+  background-color: #202020;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

@@ -8,6 +8,7 @@ import CreateVideo from './components/CreateVideo/CreateVideo';
 import Profile from './components/Profile/Profile';
 import UpdateProfile from './components/UpdateProfile/UpdateProfile';
 import Subscriptions from './components/Subscriptions/Subscriptions';
+import VideoPlayerPage from './components/VideoPlayerPage/VideoPlayerPage';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path='/profile/:userId' element={<Profile />} />
                 <Route path='/updateProfile' element={<UpdateProfile />} />
                 <Route path='/subscription' element={<Subscriptions />} />
+                <Route path='/videoPlayerPage' element={<VideoPlayerPage />} />
 
                 <Route element={<Ifunauthorized />}>
 

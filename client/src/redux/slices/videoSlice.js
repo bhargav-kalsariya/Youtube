@@ -13,9 +13,15 @@ const videoSlice = createSlice({
 
     name: "video",
     initialState: {
+        currentVideo: null,
         userProfile: null,
         status: 'idle',
         error: null
+    },
+    reducers: {
+        setCurrentVideo: (state, action) => {
+            state.currentVideo = action.payload;
+        },
     },
     extraReducers:
         (builder) => {
@@ -27,5 +33,7 @@ const videoSlice = createSlice({
         }
 
 });
+
+export const { setCurrentVideo } = videoSlice.actions;
 
 export default videoSlice.reducer;

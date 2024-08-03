@@ -6,6 +6,7 @@ import dummyImg from '../../assets/user.png';
 import { axiosClient } from '../../utilities/axiosClient';
 import { useDispatch } from 'react-redux';
 import { getAllVideos } from '../../redux/slices/feedSlice';
+import { setCurrentVideo } from '../../redux/slices/videoSlice';
 
 const VideoCard = ({ video }) => {
 
@@ -21,6 +22,8 @@ const VideoCard = ({ video }) => {
 
     async function handleVideoClick() {
 
+        dispatch(setCurrentVideo(video));
+        navigate('/videoPlayerPage');
         const response = await axiosClient.post('/video/addView', { videoId });
         if (response.data.result) {
             return setIsViewUpdated(true);
