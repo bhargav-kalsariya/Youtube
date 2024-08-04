@@ -70,7 +70,7 @@ const addViewController = async (req, res) => {
         }
 
         if (video.viewedBy.includes(curUserId)) {
-            return
+            return res.send(SUCCESS(200, 'already watched'));
         }
 
         video.views += 1;
@@ -152,12 +152,14 @@ const videoDislikeController = async (req, res) => {
 
             if (video.likes.includes(curUserId)) {
                 video.likes.pull(curUserId);
+                curUser.likedVideos.pull(videoId);
             }
             video.dislikes.push(curUserId);
 
         }
 
         await video.save();
+        await curUser.save();
         return res.send(SUCCESS(200, 'disliked successfully'));
 
     } catch (error) {
