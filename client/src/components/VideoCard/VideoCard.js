@@ -110,9 +110,10 @@ const VideoCard = ({ video }) => {
             className="video-card"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={handleVideoClick}
         >
-            <div className="video-container">
+            <div className="video-container"
+                onClick={handleVideoClick}
+            >
                 <video ref={videoRef} width="100%" height="auto">
                     <source src={video.video.url} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -133,7 +134,7 @@ const VideoCard = ({ video }) => {
                     </>
                 )}
             </div>
-            <div className="video-info">
+            <div className="video-information">
                 <div className="owner-avatar" onClick={() => navigate(`/profile/${video.owner._id}`)}>
                     <img src={video.owner.avatar.url ? video.owner.avatar.url : dummyImg} alt='avatar' />
                 </div>

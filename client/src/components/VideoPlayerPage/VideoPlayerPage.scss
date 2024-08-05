@@ -44,7 +44,7 @@
   .video-info {
     display: flex;
     gap: 6px;
-    flex-direction: column;
+    flex-direction: column !important;
 
     h1 {
       font-size: 20px;

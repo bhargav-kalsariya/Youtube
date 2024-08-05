@@ -21,8 +21,15 @@ function Profile() {
 
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
+    let totalViews = 0;
+    let totalLikes = 0;
 
-    console.log({ myProfile, feedData });
+    userProfile?.data?.mappedvideos.forEach((video) => {
+        totalViews += video.viewsCount;
+        totalLikes += video.likesCount;
+    })
+
+    console.log({ myProfile, userProfile });
 
     useEffect(() => {
         dispatch(getUserProfile({ userId: params.userId }));
@@ -89,11 +96,11 @@ function Profile() {
                     <span className="statistic-label">Videos</span>
                 </div>
                 <div className="statistic">
-                    <span className="statistic-value">{userProfile?.data?.viewsCount}</span>
+                    <span className="statistic-value">{totalViews}</span>
                     <span className="statistic-label">Views</span>
                 </div>
                 <div className="statistic">
-                    <span className="statistic-value">{userProfile?.likesCount}</span>
+                    <span className="statistic-value">{totalLikes}</span>
                     <span className="statistic-label">Likes</span>
                 </div>
             </section>
