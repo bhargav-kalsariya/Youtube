@@ -37,10 +37,6 @@ ul {
   list-style: none;
 }
 
-p {
-  color: var(--secondary-text-color);
-}
-
 a {
   text-decoration: none;
   color: white;

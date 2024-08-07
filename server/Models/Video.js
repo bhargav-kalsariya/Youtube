@@ -40,7 +40,7 @@ const video = mongoose.Schema({
         default: Date.now
     },
     comments: [{
-        userId: {
+        owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },

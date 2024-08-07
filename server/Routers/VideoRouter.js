@@ -7,5 +7,6 @@ router.get('/getAll', IsAuth, VideoController.getAllVideocontroller);
 router.post('/addView', IsAuth, VideoController.addViewController);
 router.post('/like', IsAuth, VideoController.videoLikeController);
 router.post('/dislike', IsAuth, VideoController.videoDislikeController);
+router.post('/addComment', IsAuth, VideoController.addCommentController);
 
 module.exports = router;

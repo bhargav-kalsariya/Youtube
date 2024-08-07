@@ -1,3 +1,4 @@
+const { populate } = require("dotenv");
 const User = require("../Models/User");
 const { mapVideoDetails } = require("../Utilities/Functions");
 const { ERROR, SUCCESS } = require("../Utilities/ResponseWrapper");
@@ -19,15 +20,30 @@ const userProfileController = async (req, res) => {
         const { userId } = req.body;
         const user = await User.findById(userId).populate({
             path: 'videos',
-            populate: {
-                path: 'owner'
-            }
+            populate: [
+                {
+                    path: 'comments',
+                    populate: {
+                        path: 'owner'
+                    }
+                },
+                {
+                    path: 'owner'
+                }
+            ]
         });
+        console.log({ user });
+        if (!user) {
+            return res.send(SUCCESS(404, 'User not found'));
+        }
 
         const fullvideos = user.videos;
         const mappedvideos = fullvideos.map(video => mapVideoDetails(video, userId));
 
-        return res.send(SUCCESS(200, { ...user._doc, mappedvideos }));
+        const userWithoutVideos = user.toObject();
+        delete userWithoutVideos.videos;
+
+        return res.send(SUCCESS(200, { ...userWithoutVideos, mappedvideos }));
 
 
     } catch (error) {

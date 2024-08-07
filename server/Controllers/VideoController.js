@@ -38,22 +38,37 @@ const createVideoController = async (req, res) => {
 
     } catch (error) {
 
-        console.error('Error uploading video:', error);
-        return res.status(500).send(ERROR(500, error.message));
+        return res.send(ERROR(500, error.message));
 
     }
 };
 
 const getAllVideocontroller = async (req, res) => {
+    try {
+        const curUserId = req._id;
 
-    const curUserId = req._id;
-    const videos = await Video.find().populate('owner');
+        const videos = await Video.find().populate([
+            {
+                path: 'comments',
+                populate: {
+                    path: 'owner'
+                }
+            },
+            {
+                path: 'owner'
+            }
+        ]);
 
-    const mappedVideoDetails = videos.map(video => mapVideoDetails(video, curUserId)).reverse();
+        const mappedVideoDetails = videos.map(video => mapVideoDetails(video, curUserId)).reverse();
 
-    return res.send(SUCCESS(200, mappedVideoDetails));
+        return res.send(SUCCESS(200, mappedVideoDetails));
 
+    } catch (error) {
+        console.error('Error in getAllVideocontroller:', error);
+        return res.send(ERROR(500, error.message));
+    }
 };
+
 
 const addViewController = async (req, res) => {
 
@@ -81,8 +96,7 @@ const addViewController = async (req, res) => {
 
     } catch (error) {
 
-        console.error('Error uploading video:', error);
-        return res.status(500).send(ERROR(500, error.message));
+        return res.send(ERROR(500, error.message));
 
     }
 
@@ -123,8 +137,7 @@ const videoLikeController = async (req, res) => {
 
     } catch (error) {
 
-        console.error('Error uploading video:', error);
-        return res.status(500).send(ERROR(500, error.message));
+        return res.send(ERROR(500, error.message));
 
     }
 
@@ -164,8 +177,45 @@ const videoDislikeController = async (req, res) => {
 
     } catch (error) {
 
-        console.error('Error uploading video:', error);
-        return res.status(500).send(ERROR(500, error.message));
+        return res.send(ERROR(500, error.message));
+
+    }
+
+};
+
+const addCommentController = async (req, res) => {
+
+    try {
+
+        const { videoId, newComment } = req.body;
+        const curUserId = req._id;
+
+        const video = await Video.findById(videoId);
+        const curUser = await User.findById(curUserId);
+
+        if (!video || !curUser || !newComment) {
+            return res.send(SUCCESS(404, 'video or user or commentText not found'));
+        }
+
+        try {
+
+            video.comments.push({
+                owner: curUserId,
+                comment: newComment,
+            });
+
+            await video.save();
+            return res.send(SUCCESS(201, 'Comment added successfully'));
+
+        } catch (error) {
+
+            return res.send(ERROR(500, error.message));
+
+        }
+
+    } catch (error) {
+
+        return res.send(ERROR(500, error.message));
 
     }
 
@@ -176,5 +226,6 @@ module.exports = {
     getAllVideocontroller,
     addViewController,
     videoLikeController,
-    videoDislikeController
+    videoDislikeController,
+    addCommentController,
 };

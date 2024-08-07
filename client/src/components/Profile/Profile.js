@@ -92,7 +92,7 @@ function Profile() {
             </header>
             <section className="profile-statistics">
                 <div className="statistic">
-                    <span className="statistic-value">{userProfile?.data?.videos.length} </span>
+                    <span className="statistic-value">{userProfile?.data?.mappedvideos.length} </span>
                     <span className="statistic-label">Videos</span>
                 </div>
                 <div className="statistic">

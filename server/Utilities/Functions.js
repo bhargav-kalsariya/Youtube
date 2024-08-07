@@ -24,10 +24,21 @@ const GenerateRefreshToken = (IdToCreateToken) => {
 
 const mapVideoDetails = (video, userId) => {
 
+    const mappedComments = video.comments.map((comment) => ({
+        _id: comment._id,
+        comment: comment.comment,
+        owner: {
+            avatar: comment.owner.profilePictureURL,
+            channleName: comment.owner.channleName,
+        },
+        timeAgo: timeAgo.ago(comment.date),
+    }))
+
     return {
         _id: video._id,
         title: video.title,
         description: video.description,
+        comments: mappedComments,
         video: video.video,
         owner: {
             _id: video.owner._id,

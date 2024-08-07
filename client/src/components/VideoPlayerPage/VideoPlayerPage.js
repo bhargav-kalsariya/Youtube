@@ -22,6 +22,8 @@ const VideoPlayerPage = () => {
     const [likesCount, setLikesCount] = useState(currentVideo?.likesCount);
     const [isSubscribed, setIsSubscribed] = useState(currentVideo?.owner.isSubscribed);
     const [subscribersCount, setSubscribersCount] = useState(currentVideo?.owner?.subscribers);
+    const [showFullDescription, setShowFullDescription] = useState(false);
+    const [newComment, setNewComment] = useState([]);
 
     useEffect(() => {
 
@@ -80,6 +82,14 @@ const VideoPlayerPage = () => {
 
     }
 
+    const handleToggleDescription = () => {
+        setShowFullDescription(!showFullDescription);
+    };
+
+    async function handleCommentClick() {
+        console.log(newComment);
+    }
+
     return (
         <div className="video-player-page">
             <div className="main-content">
@@ -126,21 +136,53 @@ const VideoPlayerPage = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="video-meta-wrapper">
+                            <div className="video-meta">
+                                <span className="video-views">{currentVideo?.viewsCount} views</span>
+                                <span className="video-time">{currentVideo?.timeAgo}</span>
+                                <div className="video-description">
+                                    <p>
+                                        {showFullDescription
+                                            ? currentVideo?.description
+                                            : `${currentVideo?.description?.substring(0, 40)}...`}
+                                        <span className="show-more" onClick={handleToggleDescription}>
+                                            {showFullDescription ? ' Show less' : ' Show more'}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="comments-section">
+                            <h2>{currentVideo?.comments?.length} Comments</h2>
+                            <div className="comment-form">
+                                <input
+                                    type="text"
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    placeholder="Add a comment..."
+                                />
+                                <button type="submit" onClick={handleCommentClick}>Comment</button>
+                            </div>
+                            {currentVideo?.comments && (
+                                <div className="comments-list">
+                                    {currentVideo.comments.map((comment, index) => (
+                                        <div key={index} className="comment">
+                                            <img src={comment.owner.avatar.url} alt={`${comment.owner.channleName}'s avatar`} className="comment-avatar" />
+                                            <div className="comment-details">
+                                                <div className="comment-header">
+                                                    <strong>{comment.owner.channleName}</strong>
+                                                    <span className="comment-time">{comment.timeAgo}</span>
+                                                </div>
+                                                <p className="comment-text">{comment.comment}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className="suggested-videos">
-                    {/* Placeholder for suggested videos */}
-                    {/* <div className="comments-section">
-            <h2>Comments</h2>
-            {comments.map((comment, index) => (
-            <div key={index} className="comment">
-                <p><strong>{comment.author}</strong>: {comment.text}</p>
             </div>
-            ))}
-            </div> */}
-                </div>
-            </div>
-        </div>
+        </div >
     );
 };
 
