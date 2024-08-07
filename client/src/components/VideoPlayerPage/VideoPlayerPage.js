@@ -5,6 +5,7 @@ import './VideoPlayerPage.scss';
 import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { dislikeThisVideo, likeThisVideo, subscribe_unsubscribe } from '../../redux/slices/feedSlice';
+import { addCommentToThisVideo } from '../../redux/slices/videoSlice';
 
 const VideoPlayerPage = () => {
 
@@ -17,13 +18,14 @@ const VideoPlayerPage = () => {
         navigate(-1);
     };
 
+
     const [isLiked, setIsLiked] = useState(currentVideo?.isLiked);
     const [isDisliked, setIsDisliked] = useState(currentVideo?.isDisliked);
     const [likesCount, setLikesCount] = useState(currentVideo?.likesCount);
-    const [isSubscribed, setIsSubscribed] = useState(currentVideo?.owner.isSubscribed);
+    const [isSubscribed, setIsSubscribed] = useState(currentVideo?.owner?.isSubscribed);
     const [subscribersCount, setSubscribersCount] = useState(currentVideo?.owner?.subscribers);
     const [showFullDescription, setShowFullDescription] = useState(false);
-    const [newComment, setNewComment] = useState([]);
+    const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
 
@@ -31,7 +33,8 @@ const VideoPlayerPage = () => {
         setIsDisliked(currentVideo?.isDisliked);
         setLikesCount(currentVideo?.likesCount);
         setIsSubscribed(currentVideo?.owner?.isSubscribed);
-        setSubscribersCount(currentVideo?.owner.subscribers);
+        setSubscribersCount(currentVideo?.owner?.subscribers);
+        setNewComment('');
 
     }, [currentVideo]);
 
@@ -87,7 +90,10 @@ const VideoPlayerPage = () => {
     };
 
     async function handleCommentClick() {
-        console.log(newComment);
+
+        dispatch(addCommentToThisVideo({ videoId: currentVideo?._id, newComment }));
+        setNewComment('');
+
     }
 
     return (
@@ -115,7 +121,7 @@ const VideoPlayerPage = () => {
                                     <h2 className="channel-name">{currentVideo?.owner?.channleName}</h2>
                                     <p className="subscriber-count">{subscribersCount} subscribers</p>
                                 </div>
-                                {!currentVideo?.owner.isMyVideo &&
+                                {!currentVideo?.owner?.isMyVideo &&
                                     <button className="subscribe-button" onClick={handleSubscribeClick}>
                                         {!isSubscribed ? 'Subscribe' : 'UnSubscribe'}
                                     </button>}
@@ -157,6 +163,7 @@ const VideoPlayerPage = () => {
                             <div className="comment-form">
                                 <input
                                     type="text"
+                                    value={newComment}
                                     onChange={(e) => setNewComment(e.target.value)}
                                     placeholder="Add a comment..."
                                 />

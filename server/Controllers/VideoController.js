@@ -204,8 +204,21 @@ const addCommentController = async (req, res) => {
                 comment: newComment,
             });
 
-            await video.save();
-            return res.send(SUCCESS(201, 'Comment added successfully'));
+            const updatedVideo = await video.save();
+            await updatedVideo.populate([
+                {
+                    path: 'comments',
+                    populate: {
+                        path: 'owner'
+                    }
+                },
+                {
+                    path: 'owner'
+                }
+            ])
+
+            const mappedVideo = mapVideoDetails(updatedVideo, curUserId);
+            return res.send(SUCCESS(201, mappedVideo));
 
         } catch (error) {
 
