@@ -7,9 +7,30 @@ const cloudinary = require('cloudinary').v2;
 const myProfileController = async (req, res) => {
 
     const curUserId = req._id;
-    const curUser = await User.findById(curUserId).populate('subscriptions');
+    const curUser = await User.findById(curUserId)
+        .populate('subscriptions')
+        .populate({
+            path: 'likedVideos',
+            populate: [
+                {
+                    path: 'comments',
+                    populate: {
+                        path: 'owner'
+                    }
+                },
+                {
+                    path: 'owner'
+                }
+            ]
+        })
 
-    return res.send(SUCCESS(200, curUser));
+    const fullvideos = curUser.likedVideos;
+    const mappedLikedvideos = fullvideos.map(video => mapVideoDetails(video, curUserId));
+
+    const userWithoutLikedVideos = curUser.toObject();
+    delete userWithoutLikedVideos.likedVideos;
+
+    return res.send(SUCCESS(200, { ...userWithoutLikedVideos, mappedLikedvideos }));
 
 }
 

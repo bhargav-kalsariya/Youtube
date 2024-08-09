@@ -12,7 +12,7 @@ const SideBar = () => {
                 <FaHome />
                 <span>Home</span>
             </div>
-            <div onClick={() => navigate('/trending')} className="nav-item">
+            <div onClick={() => navigate('/')} className="nav-item">
                 <FaFire />
                 <span>Trending</span>
             </div>
@@ -20,15 +20,15 @@ const SideBar = () => {
                 <FaRegFileVideo />
                 <span>Subscriptions</span>
             </div>
-            <div onClick={() => navigate('/library')} className="nav-item">
+            <div onClick={() => navigate('/')} className="nav-item">
                 <FaHistory />
                 <span>Library</span>
             </div>
-            <div onClick={() => navigate('/liked')} className="nav-item">
+            <div onClick={() => navigate('/likedVideos')} className="nav-item">
                 <FaThumbsUp />
                 <span>Liked Videos</span>
             </div>
-            <div onClick={() => navigate('/settings')} className="nav-item">
+            <div onClick={() => navigate('/')} className="nav-item">
                 <FaCog />
                 <span>Settings</span>
             </div>

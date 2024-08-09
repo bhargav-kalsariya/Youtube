@@ -74,7 +74,8 @@ const VideoCard = ({ video }) => {
         }
     };
 
-    const toggleMute = () => {
+    const toggleMute = (e) => {
+        e.stopPropagation()
         if (videoRef.current) {
             videoRef.current.muted = !videoRef.current.muted;
             setIsMuted(videoRef.current.muted);
@@ -115,12 +116,12 @@ const VideoCard = ({ video }) => {
                 onClick={handleVideoClick}
             >
                 <video ref={videoRef} width="100%" height="auto">
-                    <source src={video.video.url} type="video/mp4" />
+                    <source src={video?.video?.url} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
                 {isHovered && (
                     <>
-                        <div className="controls">
+                        <div className="controls" onClick={(e) => e.stopPropagation()}>
                             <button onClick={() => skipTo(10)}>+10s</button>
                             <button onClick={() => skipTo(30)}>+30s</button>
                             <button onClick={() => skipTo(60)}>+1m</button>

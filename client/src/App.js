@@ -9,6 +9,7 @@ import Profile from './components/Profile/Profile';
 import UpdateProfile from './components/UpdateProfile/UpdateProfile';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import VideoPlayerPage from './components/VideoPlayerPage/VideoPlayerPage';
+import LikedVideos from './components/LikedVideos/LikedVideos';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path='/updateProfile' element={<UpdateProfile />} />
                 <Route path='/subscription' element={<Subscriptions />} />
                 <Route path='/videoPlayerPage' element={<VideoPlayerPage />} />
+                <Route path='/likedVideos' element={<LikedVideos />} />
 
                 <Route element={<Ifunauthorized />}>
 

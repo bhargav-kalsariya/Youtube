@@ -116,7 +116,7 @@ const VideoPlayerPage = () => {
                         <h1>{currentVideo?.title}</h1>
                         <div className="channel-info">
                             <div className="left-part">
-                                <img src={currentVideo?.owner?.avatar.url} alt="Channel Avatar" className="channel-avatar" />
+                                <img src={currentVideo?.owner?.avatar.url} alt="Channel Avatar" className="channel-avatar" onClick={() => navigate(`/profile/${currentVideo?.owner?._id}`)} />
                                 <div className="channel-details">
                                     <h2 className="channel-name">{currentVideo?.owner?.channleName}</h2>
                                     <p className="subscriber-count">{subscribersCount} subscribers</p>
@@ -173,7 +173,7 @@ const VideoPlayerPage = () => {
                                 <div className="comments-list">
                                     {currentVideo.comments.map((comment, index) => (
                                         <div key={index} className="comment">
-                                            <img src={comment.owner.avatar.url} alt={`${comment.owner.channleName}'s avatar`} className="comment-avatar" />
+                                            <img src={comment?.owner?.avatar?.url} alt={`${comment.owner.channleName}'s avatar`} className="comment-avatar" />
                                             <div className="comment-details">
                                                 <div className="comment-header">
                                                     <strong>{comment.owner.channleName}</strong>
