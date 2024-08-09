@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 import { getMyProfile } from '../../redux/slices/userSlice';
 import './Profile.scss';
 import dummyImg from '../../assets/user.png';
 import { FaHome } from 'react-icons/fa';
-import { AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineLogout } from 'react-icons/ai';
 import { getUserProfile } from '../../redux/slices/videoSlice';
 import { subscribe_unsubscribe } from '../../redux/slices/feedSlice';
 import VideoCard from '../VideoCard/VideoCard';
+import { ACCESS_TOKEN_KEY, removeItem } from '../../utilities/localStorage';
 
 function Profile() {
 
@@ -61,6 +62,11 @@ function Profile() {
         navigate('/updateProfile');
     };
 
+    function handleLogoutProfile() {
+        removeItem(ACCESS_TOKEN_KEY);
+        redirect('/login');
+    }
+
     return (
         <div className="profile-page">
             <button className="back-to-home-btn" onClick={handleBackToHome}>
@@ -68,6 +74,9 @@ function Profile() {
             </button>
             {isMyProfile && <button className="update-profile-btn" onClick={handleUpdateProfile}>
                 <AiOutlineEdit /> Update Profile
+            </button>}
+            {isMyProfile && <button className="logout-btn" onClick={handleLogoutProfile}>
+                <AiOutlineLogout /> Logout
             </button>}
             <header className="profile-header">
                 <div className="cover-photo"></div>

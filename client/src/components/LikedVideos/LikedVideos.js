@@ -21,12 +21,12 @@ function LikedVideos() {
             <div className="back-to-home">
                 <button onClick={() => navigate('/')}>Back to Home</button>
             </div>
-            <h1 className='title'>Liked Videos</h1>
-            <div className="video-grid">
+            <h2 className='title'>Liked Videos</h2>
+            {likedVideos.length > 0 ? <div className="video-grid">
                 {likedVideos?.map(video => (
                     <VideoCard key={video._id} video={video} />
                 ))}
-            </div>
+            </div> : <h3 className='warn-notice'>You haven't liked any video</h3>}
         </div>
     );
 }
