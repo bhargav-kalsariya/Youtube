@@ -10,6 +10,7 @@ import { getUserProfile } from '../../redux/slices/videoSlice';
 import { subscribe_unsubscribe } from '../../redux/slices/feedSlice';
 import VideoCard from '../VideoCard/VideoCard';
 import { ACCESS_TOKEN_KEY, removeItem } from '../../utilities/localStorage';
+import { axiosClient } from '../../utilities/axiosClient';
 
 function Profile() {
 
@@ -62,9 +63,13 @@ function Profile() {
         navigate('/updateProfile');
     };
 
-    function handleLogoutProfile() {
-        removeItem(ACCESS_TOKEN_KEY);
-        redirect('/login');
+    async function handleLogoutProfile() {
+        const response = await axiosClient.get('/auth/logout');
+
+        if (response.data.status === 'success') {
+            removeItem(ACCESS_TOKEN_KEY);
+            navigate('/login');
+        }
     }
 
     return (

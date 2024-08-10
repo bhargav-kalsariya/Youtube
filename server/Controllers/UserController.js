@@ -154,4 +154,9 @@ const subscribe_unsubscribeController = async (req, res) => {
 
 };
 
-module.exports = { myProfileController, updateProfileController, userProfileController, subscribe_unsubscribeController }
+module.exports = {
+    myProfileController,
+    updateProfileController,
+    userProfileController,
+    subscribe_unsubscribeController
+}

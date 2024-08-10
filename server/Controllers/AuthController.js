@@ -92,6 +92,25 @@ const LoginController = async (req, res) => {
 
 }
 
+const LogoutController = (req, res) => {
+
+    try {
+
+        res.clearCookie('jwt', {
+            httpOnly: true,
+            secure: true
+        });
+
+        return res.send(SUCCESS(200, 'user logged out'));
+
+    } catch (error) {
+
+        return res.send(ERROR(500, 'internal error' + error.message));
+
+    }
+
+};
+
 const RefreshController = (req, res) => {
 
     const cookies = req.cookies;
@@ -124,4 +143,9 @@ const RefreshController = (req, res) => {
 
 };
 
-module.exports = { LoginController, SignupController, RefreshController };
+module.exports = {
+    LoginController,
+    SignupController,
+    RefreshController,
+    LogoutController
+};
