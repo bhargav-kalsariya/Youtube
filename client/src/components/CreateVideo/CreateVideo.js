@@ -35,12 +35,11 @@ function CreateVideo() {
 
         try {
 
-            const response = await axiosClient.post('/video/create', {
+            await axiosClient.post('/video/create', {
                 title,
                 description,
                 postVideo
             })
-            console.log('create video', { response });
 
         } catch (error) {
 

@@ -23,7 +23,6 @@ function Login() {
             setItem(ACCESS_TOKEN_KEY, accessToken);
             return naviget('/');
         }
-        console.log({ response });
     }
 
     return (

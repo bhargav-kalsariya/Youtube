@@ -47,7 +47,7 @@ const VideoCard = ({ video }) => {
     const handlePlay = debounce(() => {
         if (videoRef.current) {
             videoRef.current.muted = isMuted;
-            videoRef.current.play().catch((error) => console.log('Play error:', error));
+            videoRef.current.play();
         }
     }, 100);
 
@@ -70,7 +70,7 @@ const VideoCard = ({ video }) => {
     const skipTo = (seconds) => {
         if (videoRef.current) {
             videoRef.current.currentTime += seconds;
-            videoRef.current.play().catch((error) => console.log('Play error:', error));
+            videoRef.current.play();
         }
     };
 

@@ -12,7 +12,6 @@ export const getUserProfile = createAsyncThunk('video/getUserProfile', async (bo
 export const addCommentToThisVideo = createAsyncThunk('video/add-comment', async (body) => {
 
     const response = await axiosClient.post('/video/addComment', body);
-    console.log({ commented: response.data.result.data });
     return response.data.result;
 
 });

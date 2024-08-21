@@ -4,8 +4,6 @@ import { axiosClient } from "../../utilities/axiosClient"
 export const getAllVideos = createAsyncThunk('videos/getAll', async () => {
 
     const allVideos = await axiosClient.get('/video/getAll');
-
-    console.log({ allVideos });
     return allVideos.data.result.data;
 
 });
@@ -13,7 +11,6 @@ export const getAllVideos = createAsyncThunk('videos/getAll', async () => {
 export const subscribe_unsubscribe = createAsyncThunk('user/subscribe_unsubscribe', async (body) => {
 
     const response = await axiosClient.post('/user/subscribe-unsubscribe', body);
-    console.log({ subscribe_unsubscribe: response.data });
     return response.data.result;
 
 });
@@ -21,7 +18,6 @@ export const subscribe_unsubscribe = createAsyncThunk('user/subscribe_unsubscrib
 export const likeThisVideo = createAsyncThunk('video/like', async (body) => {
 
     const response = await axiosClient.post('/video/like', body);
-    console.log({ like: response.data });
     return response.data.result;
 
 });
@@ -29,7 +25,6 @@ export const likeThisVideo = createAsyncThunk('video/like', async (body) => {
 export const dislikeThisVideo = createAsyncThunk('video/dislike', async (body) => {
 
     const response = await axiosClient.post('/video/dislike', body);
-    console.log({ dislike: response.data });
     return response.data.result;
 
 });

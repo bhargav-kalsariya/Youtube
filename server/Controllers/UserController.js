@@ -53,7 +53,6 @@ const userProfileController = async (req, res) => {
                 }
             ]
         });
-        console.log({ user });
         if (!user) {
             return res.send(SUCCESS(404, 'User not found'));
         }

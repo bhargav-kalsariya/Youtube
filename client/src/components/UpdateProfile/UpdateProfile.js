@@ -12,8 +12,6 @@ function UpdateProfile() {
     const navigate = useNavigate();
     const myProfile = useSelector((state) => state.userReducer.myProfile);
 
-    console.log({ myProfile });
-
     const [ChannleName, setChannleName] = useState('');
     const [ProfilePicture, setProfilePicture] = useState('');
     const [Bio, setBio] = useState('');

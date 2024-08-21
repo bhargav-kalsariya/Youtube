@@ -12,7 +12,6 @@ const VideoPlayerPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const currentVideo = useSelector(state => state.videoReducer.currentVideo);
-    console.log({ currentVideo });
 
     const handleBack = () => {
         navigate(-1);
@@ -172,7 +171,6 @@ const VideoPlayerPage = () => {
                             {currentVideo?.comments && (
                                 <div className="comments-list">
                                     {currentVideo.comments.map((comment, index) => (
-                                        console.log({ comment }),
 
                                         <div key={index} className="comment">
                                             <img src={comment?.owner?.avatar?.url} alt={`${comment.owner.channleName}'s avatar`} className="comment-avatar" onClick={() => navigate(`/profile/${comment?.owner?._id}`)} />

@@ -126,7 +126,6 @@ const RefreshController = (req, res) => {
     try {
 
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
-        console.log({ decoded });
         const _id = decoded._id;
         const accessToken = GenerateAccessToken({ _id });
 
@@ -136,7 +135,6 @@ const RefreshController = (req, res) => {
 
     } catch (error) {
 
-        console.log(error);
         return res.send(ERROR(401, 'Invalid Refresh Token'));
 
     }

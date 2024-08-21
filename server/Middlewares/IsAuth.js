@@ -32,14 +32,12 @@ module.exports = async (req, res, next) => {
 
         } catch (error) {
 
-            console.log(error);
             return res.send(ERROR(401, 'Invalid Access Token'));
 
         }
 
     } catch (error) {
 
-        console.log(error);
         return res.send(ERROR(500, e.message));
 
     }

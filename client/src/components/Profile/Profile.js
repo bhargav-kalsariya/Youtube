@@ -31,8 +31,6 @@ function Profile() {
         totalLikes += video.likesCount;
     })
 
-    console.log({ myProfile, userProfile });
-
     useEffect(() => {
         dispatch(getUserProfile({ userId: params.userId }));
     }, [dispatch, myProfile, feedData, params.userId]);

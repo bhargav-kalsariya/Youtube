@@ -32,7 +32,6 @@ axiosClient.interceptors.response.use(async (response) => {
             withCredentials: true,
         }).get(`${process.env.REACT_APP_SERVER_BASE_URL}/auth/refresh`);
 
-        console.log({ response });
         const accessToken = response.data.result.data?.accessToken;
         const responseStatus = response.data.status;
 

@@ -10,8 +10,6 @@ function Header() {
     const navigate = useNavigate();
     const myProfile = useSelector((state) => state.userReducer.myProfile);
 
-    console.log({ myProfile });
-
     return (
         <header className='header-wrapper'>
             <div className="logo">MyTube</div>

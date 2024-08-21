@@ -10,7 +10,6 @@ function Subscriptions() {
     const navigate = useNavigate();
     const myProfile = useSelector((state) => state.userReducer.myProfile);
     const subscriptions = myProfile?.data?.subscriptions;
-    console.log({ subscriptions });
 
     useEffect(() => {
         dispatch(getMyProfile());

@@ -34,7 +34,7 @@ const createVideoController = async (req, res) => {
         curUser.videos.push(createdVideo._id);
         await curUser.save();
 
-        return res.status(201).send(SUCCESS(201, createdVideo));
+        return res.send(SUCCESS(201, 'video created successfully'));
 
     } catch (error) {
 
