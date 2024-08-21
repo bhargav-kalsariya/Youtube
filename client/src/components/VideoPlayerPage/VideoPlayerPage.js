@@ -172,8 +172,10 @@ const VideoPlayerPage = () => {
                             {currentVideo?.comments && (
                                 <div className="comments-list">
                                     {currentVideo.comments.map((comment, index) => (
+                                        console.log({ comment }),
+
                                         <div key={index} className="comment">
-                                            <img src={comment?.owner?.avatar?.url} alt={`${comment.owner.channleName}'s avatar`} className="comment-avatar" />
+                                            <img src={comment?.owner?.avatar?.url} alt={`${comment.owner.channleName}'s avatar`} className="comment-avatar" onClick={() => navigate(`/profile/${comment?.owner?._id}`)} />
                                             <div className="comment-details">
                                                 <div className="comment-header">
                                                     <strong>{comment.owner.channleName}</strong>

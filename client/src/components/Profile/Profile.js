@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { redirect, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getMyProfile } from '../../redux/slices/userSlice';
 import './Profile.scss';
 import dummyImg from '../../assets/user.png';

@@ -30,6 +30,7 @@ const mapVideoDetails = (video, userId) => {
         owner: {
             avatar: comment.owner.profilePictureURL,
             channleName: comment.owner.channleName,
+            _id: comment.owner._id,
         },
         timeAgo: timeAgo.ago(comment.date),
     }))
