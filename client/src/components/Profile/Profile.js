@@ -4,127 +4,119 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getMyProfile } from '../../redux/slices/userSlice';
 import './Profile.scss';
 import dummyImg from '../../assets/user.png';
-import { FaHome } from 'react-icons/fa';
-import { AiOutlineEdit, AiOutlineLogout } from 'react-icons/ai';
+import { FaHome, FaInstagram, FaUserEdit, FaSignOutAlt, FaUserPlus, FaUserCheck, FaVideo, FaEye, FaHeart } from 'react-icons/fa';
 import { getUserProfile } from '../../redux/slices/videoSlice';
 import { subscribe_unsubscribe } from '../../redux/slices/feedSlice';
 import VideoCard from '../VideoCard/VideoCard';
 import { ACCESS_TOKEN_KEY, removeItem } from '../../utilities/localStorage';
 import { axiosClient } from '../../utilities/axiosClient';
+import Header from '../Header/Header';
+import SideBar from '../SideBar/SideBar';
+import { useSidebar } from '../../context/SidebarContext';
+import { useMyProfile } from '../../hooks/useMyProfile';
 
 function Profile() {
-
     const params = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const myProfile = useSelector((state) => state.userReducer.myProfile);
+    const { isSidebarOpen } = useSidebar();
+    const myProfile = useMyProfile();
     const userProfile = useSelector((state) => state.videoReducer.userProfile);
     const feedData = useSelector((state) => state.feedReducer.feedData);
-
     const [isMyProfile, setIsMyProfile] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
     let totalViews = 0;
     let totalLikes = 0;
-
     userProfile?.data?.mappedvideos.forEach((video) => {
-        totalViews += video.viewsCount;
-        totalLikes += video.likesCount;
+        totalViews += video.viewsCount || 0;
+        totalLikes += video.likesCount || 0;
     })
-
     useEffect(() => {
         dispatch(getUserProfile({ userId: params.userId }));
     }, [dispatch, myProfile, feedData, params.userId]);
-
     useEffect(() => {
         dispatch(getMyProfile());
     }, [dispatch])
-
     useEffect(() => {
-
         if (myProfile?.data && userProfile?.data) {
             setIsSubscribed(userProfile.data.subscribers.includes(myProfile.data._id));
             setIsMyProfile(myProfile.data._id === params.userId);
         }
     }, [dispatch, myProfile, userProfile, feedData, params.userId]);
-
     function handleSubscribe() {
-        dispatch(subscribe_unsubscribe({
-            userId: params.userId,
-        }));
+        dispatch(subscribe_unsubscribe({ userId: params.userId, }));
     }
-
-    const handleBackToHome = () => {
-        navigate('/');
-    };
-
-    const handleUpdateProfile = () => {
-        navigate('/updateProfile');
-    };
-
+    const handleBackToHome = () => { navigate('/'); };
+    const handleUpdateProfile = () => { navigate('/updateProfile'); };
     async function handleLogoutProfile() {
         const response = await axiosClient.get('/auth/logout');
-
         if (response.data.status === 'success') {
             removeItem(ACCESS_TOKEN_KEY);
             navigate('/login');
         }
     }
-
     return (
-        <div className="profile-page">
-            <button className="back-to-home-btn" onClick={handleBackToHome}>
-                <FaHome /> Back to Home
-            </button>
-            {isMyProfile && <button className="update-profile-btn" onClick={handleUpdateProfile}>
-                <AiOutlineEdit /> Update Profile
-            </button>}
-            {isMyProfile && <button className="logout-btn" onClick={handleLogoutProfile}>
-                <AiOutlineLogout /> Logout
-            </button>}
-            <header className="profile-header">
-                <div className="cover-photo"></div>
-                <div className="profile-info-container">
-                    <img
-                        src={userProfile?.data ? userProfile?.data?.profilePictureURL?.url : dummyImg}
-                        alt="User Avatar" className="user-avatar" />
-                    <div className="profile-details">
-                        <h1 className="profile-name">{userProfile?.data?.channleName}</h1>
-                        <p className="profile-subscribers">{userProfile?.data?.subscribers.length} subscribers</p>
-                        {!isMyProfile && <div className="profile-actions">
-                            <button className="subscribe-btn" onClick={handleSubscribe}>
-                                {isSubscribed ? 'UnSubscribe' : 'Subscribe'}
-                            </button>
-                            <button className="join-btn">Join</button>
-                        </div>}
-                        <div className="profile-links">
-                            <a href={userProfile?.data?.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
+        <>
+            <Header />
+            <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+                <SideBar />
+                <div className="profile-content" style={{ width: '100%' }}>
+                    <div className="profile-page-modern">
+                        <div className="profile-header-modern">
+                            <div className="cover-photo-modern" />
+                            <div className="profile-info-card">
+                                <button className="back-to-home-btn-modern" onClick={handleBackToHome} title="Back to Home">
+                                    <FaHome />
+                                </button>
+                                <div className="avatar-actions-row">
+                                    <img
+                                        src={userProfile?.data ? userProfile.data.profilePictureURL?.url : dummyImg}
+                                        alt="User Avatar" className="user-avatar-modern" />
+                                    <div className="profile-actions-group">
+                                        {isMyProfile && <button className="update-profile-btn-modern" onClick={handleUpdateProfile} title="Edit Profile">
+                                            <FaUserEdit />
+                                        </button>}
+                                        {isMyProfile && <button className="logout-btn-modern" onClick={handleLogoutProfile} title="Logout">
+                                            <FaSignOutAlt />
+                                        </button>}
+                                        {!isMyProfile && <button className="subscribe-btn-modern" onClick={handleSubscribe} title={isSubscribed ? 'Unsubscribe' : 'Subscribe'}>
+                                            {isSubscribed ? <FaUserCheck /> : <FaUserPlus />}
+                                        </button>}
+                                    </div>
+                                </div>
+                                <div className="profile-details-modern">
+                                    <h1 className="profile-name-modern">{userProfile?.data?.channleName}</h1>
+                                    <div className="profile-subscribers-modern">{userProfile?.data?.subscribers.length} subscribers</div>
+                                    <div className="profile-socials">
+                                        {userProfile?.data?.instagramUrl && (
+                                            <a href={userProfile.data.instagramUrl} target="_blank" rel="noopener noreferrer" title="Instagram">
+                                                <FaInstagram />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="profile-stats-row">
+                                    <div className="profile-stat-pill"><FaVideo /> <span>{userProfile?.data?.mappedvideos.length}</span> <span>Videos</span></div>
+                                    <div className="profile-stat-pill"><FaEye /> <span>{totalViews}</span> <span>Views</span></div>
+                                    <div className="profile-stat-pill"><FaHeart /> <span>{totalLikes}</span> <span>Likes</span></div>
+                                </div>
+                            </div>
                         </div>
+                        <section className="profile-videos-modern">
+                            <h2 className="section-title-modern">Videos</h2>
+                            <div className="videos-list-modern">
+                                {userProfile?.data?.mappedvideos.length === 0 && (
+                                    <div className="no-videos-modern">No videos yet.</div>
+                                )}
+                                {userProfile?.data?.mappedvideos.map((video) => (
+                                    <VideoCard key={video._id} video={video} />
+                                ))}
+                            </div>
+                        </section>
                     </div>
                 </div>
-            </header>
-            <section className="profile-statistics">
-                <div className="statistic">
-                    <span className="statistic-value">{userProfile?.data?.mappedvideos.length} </span>
-                    <span className="statistic-label">Videos</span>
-                </div>
-                <div className="statistic">
-                    <span className="statistic-value">{totalViews}</span>
-                    <span className="statistic-label">Views</span>
-                </div>
-                <div className="statistic">
-                    <span className="statistic-value">{totalLikes}</span>
-                    <span className="statistic-label">Likes</span>
-                </div>
-            </section>
-            <section className="profile-videos">
-                <h2 className="section-title">Videos</h2>
-                <div className="videos-list">
-                    {userProfile?.data?.mappedvideos.map((video) => (
-                        <VideoCard key={video._id} video={video} />
-                    ))}
-                </div>
-            </section>
-        </div>
+            </div>
+        </>
     );
 }
 

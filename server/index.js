@@ -14,14 +14,21 @@ app.use(cors({
     credentials: true,
     origin: process.env.CORS_ORIGIN
 }));
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
-});
-configProcess();
+
+try {
+    cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.CLOUD_API_KEY,
+        api_secret: process.env.CLOUD_API_SECRET
+    });
+    configProcess();
+} catch (error) {
+    console.log(error);
+}
 
 app.use('/', BaseRouter);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

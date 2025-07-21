@@ -51,4 +51,25 @@ axiosClient.interceptors.response.use(async (response) => {
 
     }
 
+    return Promise.reject(responseError);
+
+}, (error) => {
+    // Handle network errors and other issues
+    if (error.response) {
+        // Server responded with error status
+        const { status, data } = error.response;
+
+        if (status === 401) {
+            removeItem(ACCESS_TOKEN_KEY);
+            window.location.replace('/login', '_self');
+        }
+
+        return Promise.reject(data?.result?.error || error.message);
+    } else if (error.request) {
+        // Network error
+        return Promise.reject('Network error. Please check your connection.');
+    } else {
+        // Other error
+        return Promise.reject(error.message);
+    }
 });

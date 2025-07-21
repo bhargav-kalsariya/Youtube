@@ -1,254 +1,548 @@
 .video-player-page {
-  display: flex;
-  padding: 20px;
-  background-color: #181818;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
-  position: relative;
-}
-
-.main-content {
-  width: 60%;
-  margin-left: 70px;
-
-  .back-button {
-    position: absolute;
-    top: 20px;
-    left: 10px;
-    background-color: #333;
+    min-height: 100vh;
+    background-color: #0f0f0f;
     color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 5px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
 
-    &:hover {
-      background-color: #555;
-    }
-  }
-}
+    .main-content {
+        display: flex;
+        transition: margin-left 0.3s ease;
+        padding-top: var(--header-height);
 
-.video-card {
-  display: flex;
-  flex-direction: column;
+        &.sidebar-open {
+            margin-left: var(--sidebar-width);
+        }
 
-  video {
-    border-radius: 20px;
-    width: 100%;
-    height: auto;
-  }
-
-  .video-info {
-    display: flex;
-    flex-direction: column !important;
-
-    h1 {
-      font-size: 20px;
-      margin: 10px 0;
-      color: #ffffff;
-      padding: 10px 20px;
-      margin-bottom: 10px;
+        &.sidebar-closed {
+            margin-left: 0;
+        }
     }
 
-    .channel-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      .left-part {
+    .video-container {
+        display: flex;
+        flex: 1;
+        gap: 24px;
+        padding: 24px;
+        max-width: 100%;
+
+        .video-main-section {
+            flex: 1;
+            max-width: calc(100% - 400px);
+
+            .back-button {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                margin-bottom: 16px;
+                padding: 8px;
+                border-radius: 50%;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+            }
+
+            .video-card {
+                background-color: #1a1a1a;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+                video {
+                    width: 100%;
+                    height: auto;
+                    background-color: #000;
+                }
+
+                .video-info {
+                    padding: 20px;
+
+                    h1 {
+                        font-size: 1.5rem;
+                        margin-bottom: 16px;
+                        font-weight: 600;
+                        line-height: 1.4;
+                        color: #ffffff;
+                    }
+
+                    .channel-info {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 20px;
+                        padding-bottom: 16px;
+                        border-bottom: 1px solid #333;
+
+                        .left-part {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+
+                            .channel-avatar {
+                                width: 48px;
+                                height: 48px;
+                                border-radius: 50%;
+                                cursor: pointer;
+                                transition: transform 0.2s ease;
+
+                                &:hover {
+                                    transform: scale(1.05);
+                                }
+                            }
+
+                            .channel-details {
+                                .channel-name {
+                                    font-size: 1rem;
+                                    font-weight: 600;
+                                    margin-bottom: 4px;
+                                    color: #ffffff;
+                                }
+
+                                .subscriber-count {
+                                    font-size: 0.875rem;
+                                    color: #aaa;
+                                }
+                            }
+
+                            .subscribe-button,
+                            .delete-button {
+                                padding: 10px 20px;
+                                border: none;
+                                border-radius: 20px;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                margin-left: 16px;
+                            }
+
+                            .subscribe-button {
+                                background-color: #ff0000;
+                                color: white;
+
+                                &:hover {
+                                    background-color: #cc0000;
+                                }
+                            }
+
+                            .delete-button {
+                                background-color: #dc3545;
+                                color: white;
+
+                                &:hover {
+                                    background-color: #c82333;
+                                }
+                            }
+                        }
+
+                        .right-part {
+                            .video-actions {
+                                display: flex;
+                                gap: 8px;
+
+                                .action-button {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 8px;
+                                    padding: 8px 16px;
+                                    background-color: #272727;
+                                    border: none;
+                                    border-radius: 20px;
+                                    color: white;
+                                    cursor: pointer;
+                                    transition: background-color 0.2s ease;
+
+                                    &:hover {
+                                        background-color: #404040;
+                                    }
+
+                                    .like-count {
+                                        font-size: 0.875rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .video-meta-wrapper {
+                        margin-bottom: 20px;
+
+                        .video-meta {
+                            background-color: #272727;
+                            padding: 16px;
+                            border-radius: 8px;
+
+                            .video-views,
+                            .video-time {
+                                color: #aaa;
+                                font-size: 0.875rem;
+                                margin-right: 16px;
+                            }
+
+                            .video-description {
+                                margin-top: 12px;
+                                line-height: 1.6;
+                                color: #e0e0e0;
+
+                                .show-more {
+                                    color: #ff0000;
+                                    cursor: pointer;
+                                    font-weight: 500;
+
+                                    &:hover {
+                                        text-decoration: underline;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .comments-section {
+                        h2 {
+                            font-size: 1.25rem;
+                            margin-bottom: 16px;
+                            font-weight: 600;
+                            color: #ffffff;
+                        }
+
+                        .comment-form {
+                            display: flex;
+                            gap: 12px;
+                            margin-bottom: 24px;
+                            align-items: flex-start;
+
+                            input {
+                                flex: 1;
+                                padding: 12px 16px;
+                                background-color: transparent;
+                                border: none;
+                                border-bottom: 1px solid #444;
+                                color: white;
+                                font-size: 0.875rem;
+
+                                &:focus {
+                                    outline: none;
+                                    border-bottom-color: #ff0000;
+                                }
+
+                                &::placeholder {
+                                    color: #aaa;
+                                }
+                            }
+
+                            .comment-error {
+                                color: #ff6b6b;
+                                font-size: 0.75rem;
+                                margin-top: 4px;
+                                animation: fadeIn 0.3s ease;
+                            }
+
+                            button {
+                                padding: 8px 16px;
+                                background-color: #ff0000;
+                                border: none;
+                                border-radius: 18px;
+                                color: white;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                white-space: nowrap;
+
+                                &:hover:not(:disabled) {
+                                    background-color: #cc0000;
+                                }
+
+                                &:disabled {
+                                    background-color: #666;
+                                    cursor: not-allowed;
+                                }
+                            }
+                        }
+
+                        .comments-list {
+                            .comment {
+                                display: flex;
+                                gap: 12px;
+                                margin-bottom: 20px;
+
+                                .comment-avatar {
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    transition: transform 0.2s ease;
+
+                                    &:hover {
+                                        transform: scale(1.05);
+                                    }
+                                }
+
+                                .comment-details {
+                                    flex: 1;
+
+                                    .comment-header {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 8px;
+                                        margin-bottom: 4px;
+
+                                        strong {
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: #ffffff;
+                                        }
+
+                                        .comment-time {
+                                            font-size: 0.75rem;
+                                            color: #aaa;
+                                        }
+                                    }
+
+                                    .comment-text {
+                                        font-size: 0.875rem;
+                                        line-height: 1.5;
+                                        color: #e0e0e0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .recommended-videos {
+            width: 400px;
+            min-width: 400px;
+
+            h3 {
+                font-size: 1.125rem;
+                margin-bottom: 16px;
+                font-weight: 600;
+                color: #ffffff;
+            }
+
+            .recommended-videos-list {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                .recommended-video-card {
+                    display: flex;
+                    gap: 12px;
+                    cursor: pointer;
+                    padding: 8px;
+                    border-radius: 8px;
+                    transition: background-color 0.2s ease;
+
+                    &:hover {
+                        background-color: #272727;
+                    }
+
+                    .video-thumbnail {
+                        width: 168px;
+                        height: 94px;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        background-color: #000;
+                        flex-shrink: 0;
+
+                        video {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .video-info-compact {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 4px;
+
+                        .channel-avatar-small {
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            margin-bottom: 4px;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
+
+                        .video-details-compact {
+                            .video-title {
+                                font-size: 0.875rem;
+                                font-weight: 500;
+                                line-height: 1.3;
+                                margin-bottom: 4px;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                overflow: hidden;
+                                color: #ffffff;
+                            }
+
+                            .channel-name-small {
+                                font-size: 0.75rem;
+                                color: #aaa;
+                                margin-bottom: 2px;
+                            }
+
+                            .video-stats {
+                                font-size: 0.75rem;
+                                color: #aaa;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .delete-confirm-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.8);
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
-        gap: 5px;
-        .channel-avatar {
-          width: 48px;
-          height: 48px;
-          cursor: pointer;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
+        justify-content: center;
+        z-index: 1000;
 
-        .channel-details {
-          display: flex;
-          flex-direction: column;
-          margin-right: 20px; /* Add some space between channel details and the subscribe button */
+        .modal-content {
+            background-color: #1a1a1a;
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
 
-          .channel-name {
-            font-size: 18px;
-            color: #ffffff; /* Ensure channel name is white */
-            margin: 0;
-          }
-
-          .subscriber-count {
-            font-size: 14px;
-            color: #b3b3b3;
-            margin: 5px 0;
-          }
-        }
-
-        .subscribe-button {
-          background-color: #cc0000;
-          color: #ffffff;
-          border: none;
-          border-radius: 5px;
-          padding: 5px 10px;
-          cursor: pointer;
-          font-size: 14px;
-          transition: background-color 0.3s;
-          margin-right: 20px; /* Add some space between the subscribe button and the like/dislike buttons */
-
-          &:hover {
-            background-color: #e60000;
-          }
-        }
-      }
-      .right-part {
-        .video-actions {
-          display: flex;
-          align-items: center;
-
-          .action-button {
-            background: none;
-            border: none;
-            color: #b3b3b3;
-            margin-right: 15px;
-            cursor: pointer;
-            transition: color 0.3s;
-            display: flex;
-            align-items: center;
-
-            &:hover {
-              color: #ffffff;
+            h3 {
+                font-size: 1.25rem;
+                margin-bottom: 16px;
+                color: white;
             }
 
-            .like-icon {
-              display: flex;
-              align-items: center;
-              margin-right: 5px; /* Add space between the icon and the like count */
+            p {
+                color: #aaa;
+                margin-bottom: 24px;
+                line-height: 1.5;
             }
 
-            .like-count {
-              font-size: 14px;
-              color: #ffffff;
+            .modal-actions {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+
+                button {
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 6px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .cancel-btn {
+                    background-color: #333;
+                    color: white;
+
+                    &:hover {
+                        background-color: #444;
+                    }
+                }
+
+                .confirm-btn {
+                    background-color: #dc3545;
+                    color: white;
+
+                    &:hover {
+                        background-color: #c82333;
+                    }
+                }
             }
-          }
         }
-      }
     }
-    .video-meta-wrapper {
-      padding: 10px 20px;
-      .video-meta {
-        color: white;
-        font-size: 14px;
-        border-radius: 8px;
-        padding: 14px 10px;
-        background-color: rgba(255, 255, 255, 0.1);
-        .video-views {
-          margin-right: 14px;
-        }
-        .video-description {
-          margin-top: 2px;
-          color: white;
-          font-size: 14px;
-          .show-more {
-            color: #00b3ff;
-            cursor: pointer;
-            text-decoration: underline;
-          }
-        }
-      }
-    }
-    .comments-section {
-      margin-block: 10px;
-      color: #b3b3b3;
-      font-size: 14px;
-      padding: 5px 20px;
-      h2 {
-        color: white;
-      }
-      .comments-list {
-        margin-top: 20px;
-      }
-
-      .comment {
-        display: flex;
-        align-items: flex-start;
-        margin-block: 20px;
-        border-radius: 5px;
-
-        .comment-avatar {
-          width: 40px;
-          height: 40px;
-          cursor: pointer;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
-
-        .comment-details {
-          flex: 1;
-
-          .comment-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-
-            strong {
-              color: #ffffff;
-              margin-right: 10px;
-            }
-
-            .comment-time {
-              color: #b3b3b3;
-              font-size: 12px;
-            }
-          }
-
-          .comment-text {
-            color: #ffffff;
-            font-size: 14px;
-          }
-        }
-      }
-
-      .comment-form {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-
-        input {
-          flex: 1;
-          padding: 10px;
-          margin-right: 10px;
-          border-radius: 5px;
-          border: 1px solid #333;
-          background-color: #202020;
-          color: #ffffff;
-        }
-
-        button {
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          background-color: #cc0000;
-          color: #ffffff;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #e60000;
-          }
-        }
-      }
-    }
-  }
 }
 
-.suggested-videos {
-  margin-top: 20px;
-  width: 100%;
-  background-color: #202020;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+    .video-player-page {
+        .video-container {
+            .video-main-section {
+                max-width: calc(100% - 320px);
+            }
+
+            .recommended-videos {
+                width: 320px;
+                min-width: 320px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .video-player-page {
+        .main-content {
+            margin-left: 0 !important;
+
+            &.sidebar-open {
+                margin-left: 0 !important;
+            }
+        }
+
+        .video-container {
+            flex-direction: column;
+            padding: 16px;
+
+            .video-main-section {
+                max-width: 100%;
+
+                .video-card {
+                    .video-info {
+                        padding: 16px;
+
+                        .channel-info {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 12px;
+
+                            .left-part {
+                                width: 100%;
+                                justify-content: space-between;
+                            }
+
+                            .right-part {
+                                width: 100%;
+                                justify-content: flex-start;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .recommended-videos {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+    }
 }

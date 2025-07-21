@@ -2,17 +2,19 @@ import React from 'react';
 import { FaHome, FaFire, FaRegFileVideo, FaHistory, FaThumbsUp, FaCog } from 'react-icons/fa';
 import './SideBar.scss';
 import { useNavigate } from 'react-router-dom';
+import { useSidebar } from '../../context/SidebarContext';
 
 const SideBar = () => {
     const navigate = useNavigate();
+    const { isSidebarOpen } = useSidebar();
 
     return (
-        <div className="sidebar">
+        <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
             <div onClick={() => navigate('/')} className="nav-item">
                 <FaHome />
                 <span>Home</span>
             </div>
-            <div onClick={() => navigate('/')} className="nav-item">
+            <div onClick={() => navigate('/trending')} className="nav-item">
                 <FaFire />
                 <span>Trending</span>
             </div>
@@ -20,7 +22,7 @@ const SideBar = () => {
                 <FaRegFileVideo />
                 <span>Subscriptions</span>
             </div>
-            <div onClick={() => navigate('/')} className="nav-item">
+            <div onClick={() => navigate('/history')} className="nav-item">
                 <FaHistory />
                 <span>Library</span>
             </div>
@@ -28,7 +30,7 @@ const SideBar = () => {
                 <FaThumbsUp />
                 <span>Liked Videos</span>
             </div>
-            <div onClick={() => navigate('/')} className="nav-item">
+            <div onClick={() => navigate('/settings')} className="nav-item">
                 <FaCog />
                 <span>Settings</span>
             </div>

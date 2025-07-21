@@ -1,4 +1,4 @@
-.liked-videos-page {
+.trending-page {
     background-color: #0f0f0f;
     min-height: 100vh;
     color: white;
@@ -18,13 +18,13 @@
         }
     }
 
-    .liked-content {
+    .trending-content {
         flex: 1;
         margin-left: 0; /* Remove fixed margin */
         padding: 24px;
         background-color: #0f0f0f;
 
-        .liked-header {
+        .trending-header {
             display: flex;
             align-items: center;
             gap: 16px;
@@ -32,17 +32,33 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #333;
 
-            .liked-icon {
+            .trending-icon {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 56px;
-                height: 56px;
-                background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+                width: 48px;
+                height: 48px;
+                background: linear-gradient(135deg, #ff6b6b, #ff8e53);
                 border-radius: 12px;
                 color: white;
-                font-size: 28px;
+                font-size: 24px;
                 box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+                animation: pulse 2s infinite;
+
+                @keyframes pulse {
+                    0% {
+                        transform: scale(1);
+                        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+                    }
+                    50% {
+                        transform: scale(1.05);
+                        box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+                    }
+                    100% {
+                        transform: scale(1);
+                        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+                    }
+                }
             }
 
             h1 {
@@ -50,6 +66,10 @@
                 font-weight: 700;
                 color: white;
                 margin: 0;
+                background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
 
             p {
@@ -61,7 +81,7 @@
             }
         }
 
-        .liked-videos-grid {
+        .trending-videos {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 24px;
@@ -88,24 +108,29 @@
                     left: 0;
                     right: 0;
                     height: 3px;
-                    background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+                    background: linear-gradient(90deg, #ff6b6b, #ff8e53);
                     z-index: 1;
                 }
             }
         }
 
-        .no-liked-videos {
+        .no-trending {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px); /* Account for header and content padding */
             text-align: center;
             padding: 80px 20px;
             color: #aaa;
 
-            .no-liked-icon {
+            .no-trending-icon {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 80px;
                 height: 80px;
-                background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+                background: linear-gradient(135deg, #ff6b6b, #ff8e53);
                 border-radius: 50%;
                 color: white;
                 font-size: 40px;
@@ -127,12 +152,12 @@
                 margin: 0 auto 24px;
             }
 
-            .start-watching-btn {
+            .refresh-btn {
                 display: inline-flex;
                 align-items: center;
                 gap: 8px;
                 padding: 14px 28px;
-                background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+                background: linear-gradient(135deg, #ff6b6b, #ff8e53);
                 border: none;
                 border-radius: 8px;
                 color: white;
@@ -152,14 +177,39 @@
                 }
             }
         }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #aaa;
+            font-size: 16px;
+
+            &::after {
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #333;
+                border-radius: 50%;
+                border-top-color: #ff6b6b;
+                animation: spin 1s ease-in-out infinite;
+                margin-left: 10px;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+        }
     }
 }
 
 // Responsive Design
 @media (max-width: 1200px) {
-    .liked-videos-page {
-        .liked-content {
-            .liked-videos-grid {
+    .trending-page {
+        .trending-content {
+            .trending-videos {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                 gap: 20px;
             }
@@ -168,7 +218,7 @@
 }
 
 @media (max-width: 768px) {
-    .liked-videos-page {
+    .trending-page {
         .main-content {
             margin-left: 0 !important; /* Override sidebar states on mobile */
 
@@ -177,11 +227,11 @@
             }
         }
 
-        .liked-content {
+        .trending-content {
             margin-left: 0;
             padding: 16px;
 
-            .liked-header {
+            .trending-header {
                 flex-direction: column;
                 gap: 12px;
                 align-items: flex-start;
@@ -196,41 +246,84 @@
                     font-size: 14px;
                 }
 
-                .liked-icon {
-                    width: 48px;
-                    height: 48px;
-                    font-size: 24px;
-                }
-            }
-
-            .liked-videos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 16px;
-            }
-        }
-    }
-}
-
-@media (max-width: 480px) {
-    .liked-videos-page {
-        .liked-content {
-            padding: 12px;
-
-            .liked-header {
-                h1 {
-                    font-size: 1.5rem;
-                }
-
-                .liked-icon {
+                .trending-icon {
                     width: 40px;
                     height: 40px;
                     font-size: 20px;
                 }
             }
 
-            .liked-videos-grid {
+            .trending-videos {
                 grid-template-columns: 1fr;
-                gap: 12px;
+                gap: 16px;
+            }
+
+            .no-trending {
+                min-height: calc(100vh - 150px);
+                padding: 60px 16px;
+
+                .no-trending-icon {
+                    width: 60px;
+                    height: 60px;
+                    font-size: 30px;
+                }
+
+                h2 {
+                    font-size: 1.5rem;
+                }
+
+                p {
+                    font-size: 14px;
+                }
+
+                .refresh-btn {
+                    padding: 12px 24px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .trending-page {
+        .trending-content {
+            padding: 12px;
+
+            .trending-header {
+                h1 {
+                    font-size: 1.5rem;
+                }
+
+                .trending-icon {
+                    width: 36px;
+                    height: 36px;
+                    font-size: 18px;
+                }
+            }
+
+            .no-trending {
+                min-height: calc(100vh - 120px);
+                padding: 40px 12px;
+
+                .no-trending-icon {
+                    width: 50px;
+                    height: 50px;
+                    font-size: 25px;
+                }
+
+                h2 {
+                    font-size: 1.25rem;
+                }
+
+                p {
+                    font-size: 13px;
+                }
+
+                .refresh-btn {
+                    padding: 10px 20px;
+                    font-size: 13px;
+                }
             }
         }
     }

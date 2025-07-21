@@ -5,7 +5,6 @@ import './VideoCard.scss';
 import dummyImg from '../../assets/user.png';
 import { axiosClient } from '../../utilities/axiosClient';
 import { useDispatch } from 'react-redux';
-import { getAllVideos } from '../../redux/slices/feedSlice';
 import { setCurrentVideo } from '../../redux/slices/videoSlice';
 
 const VideoCard = ({ video }) => {
@@ -19,11 +18,12 @@ const VideoCard = ({ video }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [isViewUpdated, setIsViewUpdated] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     async function handleVideoClick() {
 
         dispatch(setCurrentVideo(video));
-        navigate('/videoPlayerPage');
+        navigate(`/videoPlayerPage/${video._id}`);
         const response = await axiosClient.post('/video/addView', { videoId });
         if (response.data.result) {
             return setIsViewUpdated(true);
@@ -31,10 +31,6 @@ const VideoCard = ({ video }) => {
         return response.data.result;
 
     }
-
-    useEffect(() => {
-        dispatch(getAllVideos());
-    }, [dispatch, isViewUpdated]);
 
     const debounce = useCallback((func, delay) => {
         let timer;
@@ -44,16 +40,30 @@ const VideoCard = ({ video }) => {
         };
     }, []);
 
-    const handlePlay = debounce(() => {
-        if (videoRef.current) {
-            videoRef.current.muted = isMuted;
-            videoRef.current.play();
+    const handlePlay = debounce(async () => {
+        if (videoRef.current && !isPlaying) {
+            try {
+                setIsPlaying(true);
+                videoRef.current.muted = isMuted;
+                await videoRef.current.play();
+            } catch (error) {
+                // Ignore play() interrupted errors
+                if (error.name !== 'AbortError') {
+                    console.error('Video play error:', error);
+                }
+                setIsPlaying(false);
+            }
         }
     }, 100);
 
     const handlePause = debounce(() => {
-        if (videoRef.current) {
-            videoRef.current.pause();
+        if (videoRef.current && isPlaying) {
+            try {
+                videoRef.current.pause();
+                setIsPlaying(false);
+            } catch (error) {
+                console.error('Video pause error:', error);
+            }
         }
     }, 100);
 
@@ -67,10 +77,16 @@ const VideoCard = ({ video }) => {
         handlePause();
     };
 
-    const skipTo = (seconds) => {
+    const skipTo = async (seconds) => {
         if (videoRef.current) {
-            videoRef.current.currentTime += seconds;
-            videoRef.current.play();
+            try {
+                videoRef.current.currentTime += seconds;
+                if (isPlaying) {
+                    await videoRef.current.play();
+                }
+            } catch (error) {
+                console.error('Skip error:', error);
+            }
         }
     };
 
@@ -106,6 +122,19 @@ const VideoCard = ({ video }) => {
         };
     }, [isHovered]);
 
+    // Cleanup effect to pause video when component unmounts
+    useEffect(() => {
+        return () => {
+            if (videoRef.current) {
+                try {
+                    videoRef.current.pause();
+                } catch (error) {
+                    // Ignore cleanup errors
+                }
+            }
+        };
+    }, []);
+
     return (
         <div
             className="video-card"
@@ -115,7 +144,20 @@ const VideoCard = ({ video }) => {
             <div className="video-container"
                 onClick={handleVideoClick}
             >
-                <video ref={videoRef} width="100%" height="auto">
+                <video
+                    ref={videoRef}
+                    width="100%"
+                    height="auto"
+                    onError={(e) => {
+                        console.error('Video error:', e);
+                    }}
+                    onLoadStart={() => {
+                        // Handle video loading start
+                    }}
+                    onCanPlay={() => {
+                        // Video is ready to play
+                    }}
+                >
                     <source src={video?.video?.url} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
@@ -136,12 +178,16 @@ const VideoCard = ({ video }) => {
                 )}
             </div>
             <div className="video-information">
-                <div className="owner-avatar" onClick={() => navigate(`/profile/${video.owner._id}`)}>
-                    <img src={video.owner.avatar.url ? video.owner.avatar.url : dummyImg} alt='avatar' />
+                <div className="owner-avatar" onClick={() => {
+                    if (video.owner && video.owner._id) {
+                        navigate(`/profile/${video.owner._id}`);
+                    }
+                }}>
+                    <img src={video.owner.avatar?.url ? video.owner.avatar.url : dummyImg} alt='avatar' />
                 </div>
                 <div className="video-details">
                     <h3 className="title">{video.title}</h3>
-                    <p className="owner-name">{video.owner.channelName}</p>
+                    <p className="owner-name">{video.owner.channleName}</p>
                     <p className="views-time">{video.viewsCount} views • {video.timeAgo}</p>
                 </div>
             </div>

@@ -3,13 +3,16 @@ import { useSelector } from 'react-redux';
 import VideoCard from '../VideoCard/VideoCard';
 import './VideoGrid.scss';
 
-const VideoGrid = () => {
-    const { videos } = useSelector((state) => state.feedReducer);
+const VideoGrid = ({ videos: propVideos }) => {
+    const { videos: storeVideos } = useSelector((state) => state.feedReducer);
+
+    // Use prop videos if provided, otherwise use store videos
+    const videosToDisplay = propVideos || storeVideos;
 
     return (
         <div className="video-grid">
-            {videos && videos.length > 0 ? (
-                videos.map(video => (
+            {videosToDisplay && videosToDisplay.length > 0 ? (
+                videosToDisplay.map(video => (
                     <VideoCard key={video._id} video={video} />
                 ))
             ) : (

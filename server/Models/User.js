@@ -39,6 +39,17 @@ const user = mongoose.Schema({
         ref: 'Video'
     }],
 
+    watchHistory: [{
+        video: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Video'
+        },
+        watchedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+
     subscribers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

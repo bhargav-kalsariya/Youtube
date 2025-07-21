@@ -6,10 +6,12 @@ import './Home.scss';
 import { getAllVideos } from '../../redux/slices/feedSlice';
 import { getMyProfile } from '../../redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
+import { useSidebar } from '../../context/SidebarContext';
 
 function Home() {
 
     const dispatch = useDispatch();
+    const { isSidebarOpen } = useSidebar();
 
     useEffect(() => {
         dispatch(getAllVideos());
@@ -19,7 +21,7 @@ function Home() {
     return (
         <div className="app-container">
             <Header />
-            <div className="main-content">
+            <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
                 <SideBar />
                 <VideoGrid />
             </div>

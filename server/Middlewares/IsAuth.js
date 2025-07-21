@@ -38,7 +38,7 @@ module.exports = async (req, res, next) => {
 
     } catch (error) {
 
-        return res.send(ERROR(500, e.message));
+        return res.send(ERROR(500, error.message));
 
     }
 
